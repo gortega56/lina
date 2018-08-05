@@ -45,7 +45,7 @@ namespace lina
         
         vector<T, N>& operator/=(const T rhs);
         
-        vector<T, N> operator-();
+        vector<T, N> operator-() const;
 
         T& operator[](const unsigned int index);
     };
@@ -143,7 +143,7 @@ namespace lina
         return *this;
     }
 
-    template<typename T, unsigned int N> vector<T, N> vector<T, N>::operator-()
+    template<typename T, unsigned int N> vector<T, N> vector<T, N>::operator-() const
     {
         vector<T, N> result;
         for (unsigned int i = 0; i < N; ++i) result.p_cols[i] = -p_cols[i];
@@ -294,7 +294,7 @@ namespace lina
         
         vector<float, 2>& operator/=(const float rhs);
 
-        vector<float, 2> operator-();
+        vector<float, 2> operator-() const;
 
         float& operator[](const unsigned int index);
 
@@ -427,7 +427,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE vector<float, 2> vector<float, 2>::operator-()
+    MATH_INLINE vector<float, 2> vector<float, 2>::operator-() const
     {
         return
         {
@@ -601,7 +601,7 @@ namespace lina
         
         vector<float, 3>& operator/=(const float rhs);
 
-        vector<float, 3> operator-();
+        vector<float, 3> operator-() const;
 
         float& operator[](const unsigned int index);
 
@@ -756,7 +756,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE vector<float, 3> vector<float, 3>::operator-()
+    MATH_INLINE vector<float, 3> vector<float, 3>::operator-() const
     {
         return
         {
@@ -951,7 +951,7 @@ namespace lina
         
         vector<float, 4>& operator/=(const float rhs);
 
-        vector<float, 4> operator-();
+        vector<float, 4> operator-() const;
 
         float& operator[](const unsigned int index);
 
@@ -970,8 +970,6 @@ namespace lina
     
     vector<float, 4> lerp(const vector<float, 4>& lhs, const vector<float, 4>& rhs, const float t);
     
-    vector<float, 4> cross(const vector<float, 4>& lhs, const vector<float, 4>& rhs);
-
     vector<float, 4> operator+(const vector<float, 4>& lhs, const vector<float, 4>& rhs);
     
     vector<float, 4> operator-(const vector<float, 4>& lhs, const vector<float, 4>& rhs);
@@ -1128,7 +1126,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE vector<float, 4> vector<float, 4>::operator-()
+    MATH_INLINE vector<float, 4> vector<float, 4>::operator-() const
     {
         return
         {
@@ -1198,17 +1196,6 @@ namespace lina
             (oneMinusT * lhs.y) + (rhs.y * t),
             (oneMinusT * lhs.z) + (rhs.z * t),
             (oneMinusT * lhs.w) + (rhs.w * t)
-        };
-    }
-
-    MATH_INLINE vector<float, 4> cross(const vector<float, 4>& lhs, const vector<float, 4>& rhs)
-    {
-        return
-        {
-            (lhs.y * rhs.z) - (lhs.z * rhs.y),
-            (lhs.z * rhs.x) - (lhs.x * rhs.z),
-            (lhs.x * rhs.y) - (lhs.y * rhs.x),
-            0.0f
         };
     }
 
@@ -1327,7 +1314,7 @@ namespace lina
         
         vector<int, 2>& operator/=(const int rhs);
 
-        vector<int, 2> operator-();
+        vector<int, 2> operator-() const;
 
         int& operator[](const unsigned int index);
 
@@ -1432,7 +1419,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE vector<int, 2> vector<int, 2>::operator-()
+    MATH_INLINE vector<int, 2> vector<int, 2>::operator-() const
     {
         return
         {
@@ -1570,7 +1557,7 @@ namespace lina
         
         vector<int, 3>& operator/=(const int rhs);
         
-        vector<int, 3> operator-();
+        vector<int, 3> operator-() const;
 
         int& operator[](const unsigned int index);
 
@@ -1693,7 +1680,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE vector<int, 3> vector<int, 3>::operator-()
+    MATH_INLINE vector<int, 3> vector<int, 3>::operator-() const
     {
         return
         {
@@ -1839,7 +1826,7 @@ namespace lina
         
         vector<int, 4>& operator/=(const int rhs);
 
-        vector<int, 4> operator-();
+        vector<int, 4> operator-() const;
 
         int& operator[](const unsigned int index);
 
@@ -1982,7 +1969,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE vector<int, 4> vector<int, 4>::operator-()
+    MATH_INLINE vector<int, 4> vector<int, 4>::operator-() const
     {
         return
         {
@@ -2125,7 +2112,7 @@ namespace lina
         
         matrix<T, Rows, Cols>& operator/=(const T rhs);
 
-        matrix<T, Rows, Cols> operator-();
+        matrix<T, Rows, Cols> operator-() const;
     };
 
     template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator+(const matrix<T, Rows, Cols>& lhs, const matrix<T, Rows, Cols>& rhs);
@@ -2273,7 +2260,7 @@ namespace lina
         return *this;
     }
 
-    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> matrix<T, Rows, Cols>::operator-()
+    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> matrix<T, Rows, Cols>::operator-() const
     {
         matrix<T, Rows, Cols> result;
         for (unsigned int i = 0, n = Rows * Cols; i < n; ++i) result.p_data[i] = -p_data[i];
@@ -2433,7 +2420,7 @@ namespace lina
 
         matrix<float, 2, 2>& operator=(const matrix<float, 2, 2>& rhs);
         
-        matrix<float, 2, 2> operator-();
+        matrix<float, 2, 2> operator-() const;
 
         vector<float, 2>& operator[](const unsigned int index);
         
@@ -2513,7 +2500,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE matrix<float, 2, 2> matrix<float, 2, 2>::operator-()
+    MATH_INLINE matrix<float, 2, 2> matrix<float, 2, 2>::operator-() const
     {
         return { -u, -v };
     }
@@ -2640,6 +2627,10 @@ namespace lina
             float p_data[9];
         };
 
+        static matrix<float, 3, 3> orientation_lh(const vector<float, 3>& direction, const vector<float, 3>& up);
+
+        static matrix<float, 3, 3> orientation_rh(const vector<float, 3>& direction, const vector<float, 3>& up);
+
         static matrix<float, 3, 3> scale(const vector<float, 3>& s);
         
         static matrix<float, 3, 3> rotate(const float radians, const vector<float, 3>& a);
@@ -2678,7 +2669,7 @@ namespace lina
 
         matrix<float, 3, 3>& operator=(const matrix<float, 3, 3>& rhs);
         
-        matrix<float, 3, 3> operator-();
+        matrix<float, 3, 3> operator-() const;
 
         vector<float, 3>& operator[](const unsigned int index);
 
@@ -2698,6 +2689,26 @@ namespace lina
     matrix<float, 3, 3> operator*(const float lhs, const matrix<float, 3, 3>& rhs);
     
     vector<float, 3> operator*(const vector<float, 3>& lhs, const matrix<float, 3, 3>& rhs);
+
+    MATH_INLINE matrix<float, 3, 3> matrix<float, 3, 3>::orientation_lh(const vector<float, 3>& direction, const vector<float, 3>& up)
+    {
+        vector<float, 3> f = normalize(direction);
+        vector<float, 3> s = normalize(cross(up, f));
+        vector<float, 3> u = cross(f, s);
+
+        return
+        {
+            s.x, s.y, s.z,
+            u.x, u.y, u.z,
+            f.x, f.y, f.z
+        };
+    }
+
+    MATH_INLINE matrix<float, 3, 3> matrix<float, 3, 3>::orientation_rh(const vector<float, 3>& direction, const vector<float, 3>& up)
+    {
+        return orientation_lh(-direction, up);
+    }
+
 
     MATH_INLINE matrix<float, 3, 3> matrix<float, 3, 3>::scale(const vector<float, 3>& s)
     {
@@ -2914,7 +2925,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE matrix<float, 3, 3> matrix<float, 3, 3>::operator-()
+    MATH_INLINE matrix<float, 3, 3> matrix<float, 3, 3>::operator-() const
     {
         return { -u, -v, -w };
     }
@@ -3023,6 +3034,10 @@ namespace lina
             float p_data[12];
         };
 
+        static matrix<float, 4, 3> orientation_lh(const vector<float, 3>& direction, const vector<float, 3>& position, const vector<float, 3>& up);
+
+        static matrix<float, 4, 3> orientation_rh(const vector<float, 3>& direction, const vector<float, 3>& position, const vector<float, 3>& up);
+
         static matrix<float, 4, 3> scale(const vector<float, 3>& s);
 
         static matrix<float, 4, 3> rotate(const float angle, const vector<float, 3>& a);
@@ -3069,7 +3084,7 @@ namespace lina
 
         matrix<float, 4, 3>& operator=(const matrix<float, 4, 3>& rhs);
         
-        matrix<float, 4, 3> operator-();
+        matrix<float, 4, 3> operator-() const;
 
         vector<float, 3>& operator[](const unsigned int index);
 
@@ -3089,6 +3104,26 @@ namespace lina
     matrix<float, 4, 3> operator*(const float lhs, const matrix<float, 4, 3>& rhs);
     
     vector<float, 3> operator*(const vector<float, 3>& lhs, const matrix<float, 4, 3>& rhs);
+
+    MATH_INLINE matrix<float, 4, 3> matrix<float, 4, 3>::orientation_lh(const vector<float, 3>& direction, const vector<float, 3>& position, const vector<float, 3>& up)
+    {
+        vector<float, 3> f = normalize(direction);
+        vector<float, 3> s = normalize(cross(up, f));
+        vector<float, 3> u = cross(f, s);
+
+        return
+        {
+            s.x, s.y, s.z,
+            u.x, u.y, u.z,
+            f.x, f.y, f.z,
+            position.x, position.y, position.z
+        };
+    }
+
+    MATH_INLINE matrix<float, 4, 3> matrix<float, 4, 3>::orientation_rh(const vector<float, 3>& direction, const vector<float, 3>& position, const vector<float, 3>& up)
+    {
+        return orientation_lh(-direction, position, up);
+    }
 
     MATH_INLINE matrix<float, 4, 3> matrix<float, 4, 3>::scale(const vector<float, 3>& s)
     {
@@ -3350,7 +3385,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE matrix<float, 4, 3> matrix<float, 4, 3>::operator-()
+    MATH_INLINE matrix<float, 4, 3> matrix<float, 4, 3>::operator-() const
     {
         return { -u, -v, -w, -t };
     }
@@ -3464,6 +3499,10 @@ namespace lina
             float p_data[16];
         };
 
+        static matrix<float, 4, 4> orientation_lh(const vector<float, 3>& direction, const vector<float, 3>& position, const vector<float, 3>& up);
+
+        static matrix<float, 4, 4> orientation_rh(const vector<float, 3>& direction, const vector<float, 3>& position, const vector<float, 3>& up);
+
         static matrix<float, 4, 4> orthographic_rh(const float left, const float right, const float bottom, const float top, const float zNear, const float zFar);
         
         static matrix<float, 4, 4> perspective_rh(const float fovy, const float aspectRatio, const float zNear, const float zFar);
@@ -3531,7 +3570,7 @@ namespace lina
 
         matrix<float, 4, 4>& operator=(const matrix<float, 4, 4>& rhs);
         
-        matrix<float, 4, 4> operator-();
+        matrix<float, 4, 4> operator-() const;
 
         vector<float, 4>& operator[](const unsigned int index);
 
@@ -3551,6 +3590,26 @@ namespace lina
     matrix<float, 4, 4> operator*(const float lhs, const matrix<float, 4, 4>& rhs);
     
     vector<float, 4> operator*(const vector<float, 4>& lhs, const matrix<float, 4, 4>& rhs);
+
+    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::orientation_lh(const vector<float, 3>& direction, const vector<float, 3>& position, const vector<float, 3>& up)
+    {
+        vector<float, 3> f = normalize(direction);
+        vector<float, 3> s = normalize(cross(up, f));
+        vector<float, 3> u = cross(f, s);
+        
+        return
+        {
+            s.x, s.y, s.z, 0.0f,
+            u.x, u.y, u.z, 0.0f,
+            f.x, f.y, f.z, 0.0f,
+            position.x, position.y, position.z, 1.0f
+        };
+    }
+
+    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::orientation_rh(const vector<float, 3>& direction, const vector<float, 3>& position, const vector<float, 3>& up)
+    {
+        return orientation_lh(-direction, position, up);
+    }
 
     MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::orthographic_rh(
         const float left, const float right,
@@ -3681,12 +3740,17 @@ namespace lina
 
     MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::look_at_rh(const vector<float, 3>& target, const vector<float, 3>& position, const vector<float, 3>& up)
     {
-        vector<float, 4> f = normalize(vector<float, 4>(position - target, 0.0f));
-        vector<float, 4> s = normalize(cross(vector<float, 4>(up, 0.0f), f));
-        vector<float, 4> u = cross(f, s);
-        vector<float, 4> t = vector<float, 4>(position, 1.0f);
+        vector<float, 3> f = normalize(position - target);
+        vector<float, 3> s = normalize(cross(up, f));
+        vector<float, 3> u = cross(f, s);
 
-        return matrix<float, 4, 4>(s, u, f, t).inverse();
+        return
+        {
+            s.x, u.x, f.x, 0.0f,
+            s.y, u.y, f.y, 0.0f,
+            s.z, u.z, f.z, 0.0f,
+            -dot(s, position), -dot(u, position), -dot(f, position), 1.0f,
+        };
     }
 
     MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::look_to_lh(const vector<float, 3>& direction, const vector<float, 3>& position, const vector<float, 3>& up)
@@ -3696,12 +3760,17 @@ namespace lina
 
     MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::look_at_lh(const vector<float, 3>& target, const vector<float, 3>& position, const vector<float, 3>& up)
     {
-        vector<float, 4> f = normalize(vector<float, 4>(target - position, 0.0f));
-        vector<float, 4> s = normalize(cross(vector<float, 4>(up, 0.0f), f));
-        vector<float, 4> u = cross(f, s);
-        vector<float, 4> t = vector<float, 4>(position, 1.0f);
+        vector<float, 3> f = normalize(target - position);
+        vector<float, 3> s = normalize(cross(up, f));
+        vector<float, 3> u = cross(f, s);
 
-        return matrix<float, 4, 4>(s, u, f, t).inverse();
+        return
+        {
+            s.x, u.x, f.x, 0.0f,
+            s.y, u.y, f.y, 0.0f,
+            s.z, u.z, f.z, 0.0f,
+            -dot(s, position), -dot(u, position), -dot(f, position), 1.0f,
+        };
     }
 
     MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::scale(const vector<float, 3>& s)
@@ -3970,7 +4039,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::operator-()
+    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::operator-() const
     {
         return { -u, -v, -w, -t };
     }
@@ -4131,7 +4200,7 @@ namespace lina
 
         quaternion& operator=(const quaternion& rhs);
         
-        quaternion operator-();
+        quaternion operator-() const;
     };
 
     float dot(const quaternion& lhs, const quaternion& rhs);
@@ -4530,7 +4599,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE quaternion quaternion::operator-()
+    MATH_INLINE quaternion quaternion::operator-() const
     {
         quaternion out;
         out.x = -x;
