@@ -62,4 +62,6 @@ typedef lina::intersection<2> hit2;
 
 typedef lina::intersection<3> hit3;
 
+typedef lina::quaternion quat;
+
 #endif

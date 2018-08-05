@@ -3232,7 +3232,7 @@ namespace lina
         };
     }
 
-    matrix<float, 4, 3> matrix<float, 4, 3>::identity()
+    MATH_INLINE matrix<float, 4, 3> matrix<float, 4, 3>::identity()
     {
         return
         {
