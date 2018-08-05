@@ -2627,6 +2627,8 @@ namespace lina
             float p_data[9];
         };
 
+        static matrix<float, 3, 3> create_euler(const float pitch, const float yaw, const float roll);
+
         static matrix<float, 3, 3> orientation_lh(const vector<float, 3>& direction, const vector<float, 3>& up);
 
         static matrix<float, 3, 3> orientation_rh(const vector<float, 3>& direction, const vector<float, 3>& up);
@@ -2689,6 +2691,19 @@ namespace lina
     matrix<float, 3, 3> operator*(const float lhs, const matrix<float, 3, 3>& rhs);
     
     vector<float, 3> operator*(const vector<float, 3>& lhs, const matrix<float, 3, 3>& rhs);
+
+    MATH_INLINE matrix<float, 3, 3> matrix<float, 3, 3>::create_euler(const float pitch, const float yaw, const float roll)
+    {
+        float ch = cosf(yaw); float cp = cosf(pitch); float cb = cosf(roll);
+        float sh = sinf(yaw); float sp = sinf(pitch); float sb = sinf(roll);
+
+        return
+        {
+            ch * cb + sh * sp * sb, sb * cp, -sh * cb + ch * sp * sb,
+            -ch * sb + sh * sp * cb, cb * cp, sb * sh + ch * sp * cb,
+            sh * cp, -sp, ch * cp
+        };
+    }
 
     MATH_INLINE matrix<float, 3, 3> matrix<float, 3, 3>::orientation_lh(const vector<float, 3>& direction, const vector<float, 3>& up)
     {
@@ -3034,6 +3049,8 @@ namespace lina
             float p_data[12];
         };
 
+        static matrix<float, 4, 3> create_euler(const float pitch, const float yaw, const float roll);
+
         static matrix<float, 4, 3> orientation_lh(const vector<float, 3>& direction, const vector<float, 3>& position, const vector<float, 3>& up);
 
         static matrix<float, 4, 3> orientation_rh(const vector<float, 3>& direction, const vector<float, 3>& position, const vector<float, 3>& up);
@@ -3104,6 +3121,20 @@ namespace lina
     matrix<float, 4, 3> operator*(const float lhs, const matrix<float, 4, 3>& rhs);
     
     vector<float, 3> operator*(const vector<float, 3>& lhs, const matrix<float, 4, 3>& rhs);
+
+    MATH_INLINE matrix<float, 4, 3> matrix<float, 4, 3>::create_euler(const float pitch, const float yaw, const float roll)
+    {
+        float ch = cosf(yaw); float cp = cosf(pitch); float cb = cosf(roll);
+        float sh = sinf(yaw); float sp = sinf(pitch); float sb = sinf(roll);
+
+        return
+        {
+            ch * cb + sh * sp * sb, sb * cp, -sh * cb + ch * sp * sb,
+            -ch * sb + sh * sp * cb, cb * cp, sb * sh + ch * sp * cb,
+            sh * cp, -sp, ch * cp,
+            0.0f, 0.0f, 0.0f
+        };
+    }
 
     MATH_INLINE matrix<float, 4, 3> matrix<float, 4, 3>::orientation_lh(const vector<float, 3>& direction, const vector<float, 3>& position, const vector<float, 3>& up)
     {
@@ -3499,6 +3530,8 @@ namespace lina
             float p_data[16];
         };
 
+        static matrix<float, 4, 4> create_euler(const float pitch, const float yaw, const float roll);
+
         static matrix<float, 4, 4> orientation_lh(const vector<float, 3>& direction, const vector<float, 3>& position, const vector<float, 3>& up);
 
         static matrix<float, 4, 4> orientation_rh(const vector<float, 3>& direction, const vector<float, 3>& position, const vector<float, 3>& up);
@@ -3590,6 +3623,20 @@ namespace lina
     matrix<float, 4, 4> operator*(const float lhs, const matrix<float, 4, 4>& rhs);
     
     vector<float, 4> operator*(const vector<float, 4>& lhs, const matrix<float, 4, 4>& rhs);
+
+    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::create_euler(const float pitch, const float yaw, const float roll)
+    {
+        float ch = cosf(yaw); float cp = cosf(pitch); float cb = cosf(roll);
+        float sh = sinf(yaw); float sp = sinf(pitch); float sb = sinf(roll);
+
+        return
+        {
+            ch * cb + sh * sp * sb, sb * cp, -sh * cb + ch * sp * sb, 0.0f,
+            -ch * sb + sh * sp * cb, cb * cp, sb * sh + ch * sp * cb, 0.0f,
+            sh * cp, -sp, ch * cp, 0.0f,
+            0.0f, 0.0f, 0.0f, 1.0f
+        };
+    }
 
     MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::orientation_lh(const vector<float, 3>& direction, const vector<float, 3>& position, const vector<float, 3>& up)
     {
