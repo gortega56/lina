@@ -14,6 +14,21 @@
 
 namespace lina
 {
+    MATH_INLINE float length(const float x, const float y)
+    {
+        return sqrtf((x * x) + (y * y));
+    }
+
+    MATH_INLINE float length(const float x, const float y, const float z)
+    {
+        return sqrtf((x * x) + (y * y) + (z * z));
+    }
+
+    MATH_INLINE float length(const float x, const float y, const float z, const float w)
+    {
+        return sqrtf((x * x) + (y * y) + (z * z) + (w * w));
+    }
+
 #pragma region vector template
 
     template<typename T, unsigned int N>
@@ -22,69 +37,69 @@ namespace lina
         T p_cols[N];
 
         vector() = default;
-        
+
         vector(const T* p_data);
-        
+
         vector(const vector<T, N>& o);
 
         T dot(const vector<T, N>& rhs) const;
-        
+
         T length_squared() const;
 
         vector<T, N>& operator+=(const vector<T, N>& rhs);
-        
+
         vector<T, N>& operator-=(const vector<T, N>& rhs);
-        
+
         vector<T, N>& operator*=(const vector<T, N>& rhs);
 
         vector<T, N>& operator+=(const T rhs);
-        
+
         vector<T, N>& operator-=(const T rhs);
-        
+
         vector<T, N>& operator*=(const T rhs);
-        
+
         vector<T, N>& operator/=(const T rhs);
-        
+
         vector<T, N> operator-() const;
 
         T& operator[](const unsigned int index);
     };
 
-    template<typename T, unsigned int N> T dot(const vector<T, N>& lhs, const vector<T, N>& rhs);
-    
-    template<typename T, unsigned int N> T length_squared(const vector<T, N>& val);
+    template<typename T, unsigned int N> T dot(const vector<T, N> & lhs, const vector<T, N> & rhs);
 
-    template<typename T, unsigned int N> vector<T, N> operator+(const vector<T, N>& lhs, const vector<T, N>& rhs);
-    
-    template<typename T, unsigned int N> vector<T, N> operator-(const vector<T, N>& lhs, const vector<T, N>& rhs);
-    
-    template<typename T, unsigned int N> vector<T, N> operator*(const vector<T, N>& lhs, const vector<T, N>& rhs);
+    template<typename T, unsigned int N> T length_squared(const vector<T, N> & val);
 
-    template<typename T, unsigned int N> vector<T, N> operator+(const vector<T, N>& lhs, const T rhs);
-    
-    template<typename T, unsigned int N> vector<T, N> operator-(const vector<T, N>& lhs, const T rhs);
-    
-    template<typename T, unsigned int N> vector<T, N> operator*(const vector<T, N>& lhs, const T rhs);
-    
-    template<typename T, unsigned int N> vector<T, N> operator/(const vector<T, N>& lhs, const T rhs);
+    template<typename T, unsigned int N> vector<T, N> operator+(const vector<T, N> & lhs, const vector<T, N> & rhs);
 
-    template<typename T, unsigned int N> vector<T, N> operator+(const T lhs, const vector<T, N>& rhs);
-    
-    template<typename T, unsigned int N> vector<T, N> operator-(const T lhs, const vector<T, N>& rhs);
-    
-    template<typename T, unsigned int N> vector<T, N> operator*(const T lhs, const vector<T, N>& rhs);
+    template<typename T, unsigned int N> vector<T, N> operator-(const vector<T, N> & lhs, const vector<T, N> & rhs);
 
-    template<typename T, unsigned int N> vector<T, N>::vector(const T* p_data)
+    template<typename T, unsigned int N> vector<T, N> operator*(const vector<T, N> & lhs, const vector<T, N> & rhs);
+
+    template<typename T, unsigned int N> vector<T, N> operator+(const vector<T, N> & lhs, const T rhs);
+
+    template<typename T, unsigned int N> vector<T, N> operator-(const vector<T, N> & lhs, const T rhs);
+
+    template<typename T, unsigned int N> vector<T, N> operator*(const vector<T, N> & lhs, const T rhs);
+
+    template<typename T, unsigned int N> vector<T, N> operator/(const vector<T, N> & lhs, const T rhs);
+
+    template<typename T, unsigned int N> vector<T, N> operator+(const T lhs, const vector<T, N> & rhs);
+
+    template<typename T, unsigned int N> vector<T, N> operator-(const T lhs, const vector<T, N> & rhs);
+
+    template<typename T, unsigned int N> vector<T, N> operator*(const T lhs, const vector<T, N> & rhs);
+
+    template<typename T, unsigned int N> vector<T, N>::vector(const T * p_data)
     {
         for (unsigned int i = 0; i < N; ++i) p_cols[i] = p_data[i];
     }
 
-    template<typename T, unsigned int N> vector<T, N>::vector(const vector<T, N>& o)
+    template<typename T, unsigned int N> vector<T, N>::vector(const vector<T, N> & o)
     {
         for (unsigned int i = 0; i < N; ++i) p_cols[i] = o.p_cols[i];
     }
 
-    template<typename T, unsigned int N> T vector<T, N>::dot(const vector<T, N>& rhs) const
+    template<typename T, unsigned int N> T vector<T, N>::dot(const vector<T, N> & rhs) const
     {
         // TODO: Is this faster? Does splitting up the multiply and additions allow for better parallelization on cpu?
         T result[N];
@@ -101,19 +116,19 @@ namespace lina
         return result[0];
     }
 
-    template<typename T, unsigned int N> vector<T, N>& vector<T, N>::operator+=(const vector<T, N>& rhs)
+    template<typename T, unsigned int N> vector<T, N> & vector<T, N>::operator+=(const vector<T, N> & rhs)
     {
         for (unsigned int i = 0; i < N; ++i) p_cols[i] += rhs.p_cols[i];
         return *this;
     }
 
-    template<typename T, unsigned int N> vector<T, N>& vector<T, N>::operator-=(const vector<T, N>& rhs)
+    template<typename T, unsigned int N> vector<T, N>& vector<T, N>::operator-=(const vector<T, N> & rhs)
     {
         for (unsigned int i = 0; i < N; ++i) p_cols[i] -= rhs.p_cols[i];
         return *this;
     }
 
-    template<typename T, unsigned int N> vector<T, N>& vector<T, N>::operator*=(const vector<T, N>& rhs)
+    template<typename T, unsigned int N> vector<T, N>& vector<T, N>::operator*=(const vector<T, N> & rhs)
     {
         for (unsigned int i = 0; i < N; ++i) p_cols[i] *= rhs.p_cols[i];
         return *this;
@@ -155,7 +170,7 @@ namespace lina
         return p_cols[index];
     }
 
-    template<typename T, unsigned int N> T dot(const vector<T, N>& lhs, const vector<T, N>& rhs)
+    template<typename T, unsigned int N> T dot(const vector<T, N> & lhs, const vector<T, N> & rhs)
     {
         // TODO: Is this faster? Does splitting up the multiply and additions allow for better parallelization on cpu?
         T result[N];
@@ -164,7 +179,7 @@ namespace lina
         return result[0];
     }
 
-    template<typename T, unsigned int N> T length_squared(const vector<T, N>& val)
+    template<typename T, unsigned int N> T length_squared(const vector<T, N> & val)
     {
         T result[N];
         for (unsigned int i = 0; i < N; ++i) result[i] = val.p_cols[i] * val.p_cols[i];
@@ -172,70 +187,70 @@ namespace lina
         return result[0];
     }
 
-    template<typename T, unsigned int N> vector<T, N> operator+(const vector<T, N>& lhs, const vector<T, N>& rhs)
+    template<typename T, unsigned int N> vector<T, N> operator+(const vector<T, N> & lhs, const vector<T, N> & rhs)
     {
         vector<T, N> out;
         for (unsigned int i = 0; i < N; ++i) out.p_cols[i] = lhs.p_cols[i] + rhs.p_cols[i];
         return out;
     }
 
-    template<typename T, unsigned int N> vector<T, N> operator-(const vector<T, N>& lhs, const vector<T, N>& rhs)
+    template<typename T, unsigned int N> vector<T, N> operator-(const vector<T, N> & lhs, const vector<T, N> & rhs)
     {
         vector<T, N> out;
         for (unsigned int i = 0; i < N; ++i) out.p_cols[i] = lhs.p_cols[i] - rhs.p_cols[i];
         return out;
     }
 
-    template<typename T, unsigned int N> vector<T, N> operator*(const vector<T, N>& lhs, const vector<T, N>& rhs)
+    template<typename T, unsigned int N> vector<T, N> operator*(const vector<T, N> & lhs, const vector<T, N> & rhs)
     {
         vector<T, N> out;
         for (unsigned int i = 0; i < N; ++i) out.p_cols[i] = lhs.p_cols[i] * rhs.p_cols[i];
         return out;
     }
 
-    template<typename T, unsigned int N> vector<T, N> operator+(const vector<T, N>& lhs, const T rhs)
+    template<typename T, unsigned int N> vector<T, N> operator+(const vector<T, N> & lhs, const T rhs)
     {
         vector<T, N> out;
         for (unsigned int i = 0; i < N; ++i) out.p_cols[i] = lhs.p_cols[i] + rhs;
         return out;
     }
 
-    template<typename T, unsigned int N> vector<T, N> operator-(const vector<T, N>& lhs, const T rhs)
+    template<typename T, unsigned int N> vector<T, N> operator-(const vector<T, N> & lhs, const T rhs)
     {
         vector<T, N> out;
         for (unsigned int i = 0; i < N; ++i) out.p_cols[i] = lhs.p_cols[i] - rhs;
         return out;
     }
 
-    template<typename T, unsigned int N> vector<T, N> operator*(const vector<T, N>& lhs, const T rhs)
+    template<typename T, unsigned int N> vector<T, N> operator*(const vector<T, N> & lhs, const T rhs)
     {
         vector<T, N> out;
         for (unsigned int i = 0; i < N; ++i) out.p_cols[i] = lhs.p_cols[i] * rhs;
         return out;
     }
 
-    template<typename T, unsigned int N> vector<T, N> operator/(const vector<T, N>& lhs, const T rhs)
+    template<typename T, unsigned int N> vector<T, N> operator/(const vector<T, N> & lhs, const T rhs)
     {
         vector<T, N> out;
         for (unsigned int i = 0; i < N; ++i) out.p_cols[i] = lhs.p_cols[i] / rhs;
         return out;
     }
 
-    template<typename T, unsigned int N> vector<T, N> operator+(const T lhs, const vector<T, N>& rhs)
+    template<typename T, unsigned int N> vector<T, N> operator+(const T lhs, const vector<T, N> & rhs)
     {
         vector<T, N> out;
         for (unsigned int i = 0; i < N; ++i) out.p_cols[i] = lhs + rhs.p_cols[i];
         return out;
     }
 
-    template<typename T, unsigned int N> vector<T, N> operator-(const T lhs, const vector<T, N>& rhs)
+    template<typename T, unsigned int N> vector<T, N> operator-(const T lhs, const vector<T, N> & rhs)
     {
         vector<T, N> out;
         for (unsigned int i = 0; i < N; ++i) out.p_cols[i] = lhs - rhs.p_cols[i];
         return out;
     }
 
-    template<typename T, unsigned int N> vector<T, N> operator*(const T lhs, const vector<T, N>& rhs)
+    template<typename T, unsigned int N> vector<T, N> operator*(const T lhs, const vector<T, N> & rhs)
     {
         vector<T, N> out;
         for (unsigned int i = 0; i < N; ++i) out.p_cols[i] = lhs * rhs.p_cols[i];
@@ -265,33 +280,33 @@ namespace lina
         };
 
         vector(const float x, const float y);
-        
+
         vector(const vector<float, 2>& o);
-        
+
         vector(const float* p_data);
-        
+
         vector(const float o);
-        
+
         vector() = default;
 
         float length_squared() const;
-        
+
         float length() const;
-        
+
         vector<float, 2>& normalize();
-        
+
         vector<float, 2>& safe_normalize(const float tolerance = 0.001f);
 
         vector<float, 2>& operator+=(const vector<float, 2>& rhs);
-        
+
         vector<float, 2>& operator-=(const vector<float, 2>& rhs);
-        
+
         vector<float, 2>& operator*=(const vector<float, 2>& rhs);
-        
+
         vector<float, 2>& operator=(const vector<float, 2>& rhs);
 
         vector<float, 2>& operator*=(const float rhs);
-        
+
         vector<float, 2>& operator/=(const float rhs);
 
         vector<float, 2> operator-() const;
@@ -302,25 +317,25 @@ namespace lina
     };
 
     float dot(const vector<float, 2>& lhs, const vector<float, 2>& rhs);
-    
+
     float length_squared(const vector<float, 2>& val);
-    
+
     float length(const vector<float, 2>& rhs);
-    
+
     vector<float, 2> normalize(const vector<float, 2>& rhs);
-    
+
     vector<float, 2> safe_normalize(const vector<float, 2>& rhs, const float tolerance = 0.001f);
-    
+
     vector<float, 2> lerp(const vector<float, 2>& lhs, const vector<float, 2>& rhs, const float t);
 
     vector<float, 2> operator+(const vector<float, 2>& lhs, const vector<float, 2>& rhs);
-    
+
     vector<float, 2> operator-(const vector<float, 2>& lhs, const vector<float, 2>& rhs);
-    
+
     vector<float, 2> operator*(const vector<float, 2>& lhs, const vector<float, 2>& rhs);
 
     vector<float, 2> operator*(const vector<float, 2>& lhs, const float rhs);
-    
+
     vector<float, 2> operator/(const vector<float, 2>& lhs, const float rhs);
 
     vector<float, 2> operator*(const float lhs, const vector<float, 2>& rhs);
@@ -384,28 +399,28 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE vector<float, 2>& vector<float, 2>::operator+=(const vector<float, 2>& rhs)
+    MATH_INLINE vector<float, 2>& vector<float, 2>::operator+=(const vector<float, 2> & rhs)
     {
         x += rhs.x;
         y += rhs.y;
         return *this;
     }
 
-    MATH_INLINE vector<float, 2>& vector<float, 2>::operator-=(const vector<float, 2>& rhs)
+    MATH_INLINE vector<float, 2>& vector<float, 2>::operator-=(const vector<float, 2> & rhs)
     {
         x -= rhs.x;
         y -= rhs.y;
         return *this;
     }
 
-    MATH_INLINE vector<float, 2>& vector<float, 2>::operator*=(const vector<float, 2>& rhs)
+    MATH_INLINE vector<float, 2>& vector<float, 2>::operator*=(const vector<float, 2> & rhs)
     {
         x *= rhs.x;
         y *= rhs.y;
         return *this;
     }
 
-    MATH_INLINE vector<float, 2>& vector<float, 2>::operator=(const vector<float, 2>& rhs)
+    MATH_INLINE vector<float, 2>& vector<float, 2>::operator=(const vector<float, 2> & rhs)
     {
         x = rhs.x;
         y = rhs.y;
@@ -446,22 +461,22 @@ namespace lina
         return p_cols[index];
     }
 
-    MATH_INLINE float dot(const vector<float, 2>& lhs, const vector<float, 2>& rhs)
+    MATH_INLINE float dot(const vector<float, 2> & lhs, const vector<float, 2> & rhs)
     {
         return (lhs.x * rhs.x) + (lhs.y * rhs.y);
     }
 
-    MATH_INLINE float length_squared(const vector<float, 2>& val)
+    MATH_INLINE float length_squared(const vector<float, 2> & val)
     {
         return (val.x * val.x) + (val.y * val.y);
     }
 
-    MATH_INLINE float length(const vector<float, 2>& rhs)
+    MATH_INLINE float length(const vector<float, 2> & rhs)
     {
         return sqrt((rhs.x * rhs.x) + (rhs.y * rhs.y));
     }
 
-    MATH_INLINE vector<float, 2> normalize(const vector<float, 2>& rhs)
+    MATH_INLINE vector<float, 2> normalize(const vector<float, 2> & rhs)
     {
         float il = 1.0f / sqrt((rhs.x * rhs.x) + (rhs.y * rhs.y));
         return
@@ -471,7 +486,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 2> safe_normalize(const vector<float, 2>& rhs, const float tolerance /*= 0.001f*/)
+    MATH_INLINE vector<float, 2> safe_normalize(const vector<float, 2> & rhs, const float tolerance /*= 0.001f*/)
     {
         float l = sqrt((rhs.x * rhs.x) + (rhs.y * rhs.y));
         float il = (l > tolerance) ? (1.0f / l) : 1.0f;
@@ -482,7 +497,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 2> lerp(const vector<float, 2>& lhs, const vector<float, 2>& rhs, const float t)
+    MATH_INLINE vector<float, 2> lerp(const vector<float, 2> & lhs, const vector<float, 2> & rhs, const float t)
     {
         float oneMinusT = 1.0f - t;
         return
@@ -492,7 +507,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 2> operator+(const vector<float, 2>& lhs, const vector<float, 2>& rhs)
+    MATH_INLINE vector<float, 2> operator+(const vector<float, 2> & lhs, const vector<float, 2> & rhs)
     {
         return
         {
@@ -501,7 +516,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 2> operator-(const vector<float, 2>& lhs, const vector<float, 2>& rhs)
+    MATH_INLINE vector<float, 2> operator-(const vector<float, 2> & lhs, const vector<float, 2> & rhs)
     {
         return
         {
@@ -510,7 +525,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 2> operator*(const vector<float, 2>& lhs, const vector<float, 2>& rhs)
+    MATH_INLINE vector<float, 2> operator*(const vector<float, 2> & lhs, const vector<float, 2> & rhs)
     {
         return
         {
@@ -519,7 +534,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 2> operator*(const vector<float, 2>& lhs, const float rhs)
+    MATH_INLINE vector<float, 2> operator*(const vector<float, 2> & lhs, const float rhs)
     {
         return
         {
@@ -528,7 +543,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 2> operator/(const vector<float, 2>& lhs, const float rhs)
+    MATH_INLINE vector<float, 2> operator/(const vector<float, 2> & lhs, const float rhs)
     {
         float inv = 1.0f / rhs;
         return
@@ -538,7 +553,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 2> operator*(const float lhs, const vector<float, 2>& rhs)
+    MATH_INLINE vector<float, 2> operator*(const float lhs, const vector<float, 2> & rhs)
     {
         return
         {
@@ -570,35 +585,35 @@ namespace lina
         };
 
         vector(const float x, const float y, const float z);
-        
+
         vector(const vector<float, 3>& o);
-        
+
         vector(const vector<float, 2>& o, const float z);
-        
+
         vector(const float* p_data);
-        
+
         vector(const float o);
-        
+
         vector() = default;
 
         float length_squared() const;
-        
+
         float length() const;
-        
+
         vector<float, 3>& normalize();
-        
+
         vector<float, 3>& safe_normalize(const float tolerance = 0.001f);
 
         vector<float, 3>& operator+=(const vector<float, 3>& rhs);
-        
+
         vector<float, 3>& operator-=(const vector<float, 3>& rhs);
-        
+
         vector<float, 3>& operator*=(const vector<float, 3>& rhs);
-        
+
         vector<float, 3>& operator=(const vector<float, 3>& rhs);
 
         vector<float, 3>& operator*=(const float rhs);
-        
+
         vector<float, 3>& operator/=(const float rhs);
 
         vector<float, 3> operator-() const;
@@ -609,27 +624,27 @@ namespace lina
     };
 
     float dot(const vector<float, 3>& lhs, const vector<float, 3>& rhs);
-    
+
     float length_squared(const vector<float, 3>& val);
-    
+
     float length(const vector<float, 3>& rhs);
-    
+
     vector<float, 3> normalize(const vector<float, 3>& rhs);
-    
+
     vector<float, 3> safe_normalize(const vector<float, 3>& rhs, const float tolerance = 0.001f);
-    
+
     vector<float, 3> lerp(const vector<float, 3>& lhs, const vector<float, 3>& rhs, const float t);
-    
+
     vector<float, 3> cross(const vector<float, 3>& lhs, const vector<float, 3>& rhs);
 
     vector<float, 3> operator+(const vector<float, 3>& lhs, const vector<float, 3>& rhs);
-    
+
     vector<float, 3> operator-(const vector<float, 3>& lhs, const vector<float, 3>& rhs);
-    
+
     vector<float, 3> operator*(const vector<float, 3>& lhs, const vector<float, 3>& rhs);
 
     vector<float, 3> operator*(const vector<float, 3>& lhs, const float rhs);
-    
+
     vector<float, 3> operator/(const vector<float, 3>& lhs, const float rhs);
 
     vector<float, 3> operator*(const float lhs, const vector<float, 3>& rhs);
@@ -707,7 +722,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE vector<float, 3>& vector<float, 3>::operator+=(const vector<float, 3>& rhs)
+    MATH_INLINE vector<float, 3>& vector<float, 3>::operator+=(const vector<float, 3> & rhs)
     {
         x += rhs.x;
         y += rhs.y;
@@ -715,7 +730,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE vector<float, 3>& vector<float, 3>::operator-=(const vector<float, 3>& rhs)
+    MATH_INLINE vector<float, 3>& vector<float, 3>::operator-=(const vector<float, 3> & rhs)
     {
         x -= rhs.x;
         y -= rhs.y;
@@ -723,7 +738,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE vector<float, 3>& vector<float, 3>::operator*=(const vector<float, 3>& rhs)
+    MATH_INLINE vector<float, 3>& vector<float, 3>::operator*=(const vector<float, 3> & rhs)
     {
         x *= rhs.x;
         y *= rhs.y;
@@ -731,7 +746,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE vector<float, 3>& vector<float, 3>::operator=(const vector<float, 3>& rhs)
+    MATH_INLINE vector<float, 3>& vector<float, 3>::operator=(const vector<float, 3> & rhs)
     {
         x = rhs.x;
         y = rhs.y;
@@ -776,22 +791,22 @@ namespace lina
         return p_cols[index];
     }
 
-    MATH_INLINE float dot(const vector<float, 3>& lhs, const vector<float, 3>& rhs)
+    MATH_INLINE float dot(const vector<float, 3> & lhs, const vector<float, 3> & rhs)
     {
         return (lhs.x * rhs.x) + (lhs.y * rhs.y) + (lhs.z * rhs.z);
     }
 
-    MATH_INLINE float length_squared(const vector<float, 3>& val)
+    MATH_INLINE float length_squared(const vector<float, 3> & val)
     {
         return (val.x * val.x) + (val.y * val.y) + (val.z * val.z);
     }
 
-    MATH_INLINE float length(const vector<float, 3>& rhs)
+    MATH_INLINE float length(const vector<float, 3> & rhs)
     {
         return sqrt((rhs.x * rhs.x) + (rhs.y * rhs.y) + (rhs.z * rhs.z));
     }
 
-    MATH_INLINE vector<float, 3> normalize(const vector<float, 3>& rhs)
+    MATH_INLINE vector<float, 3> normalize(const vector<float, 3> & rhs)
     {
         float il = 1.0f / sqrt((rhs.x * rhs.x) + (rhs.y * rhs.y) + (rhs.z * rhs.z));
         return
@@ -802,7 +817,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 3> safe_normalize(const vector<float, 3>& rhs, const float tolerance /*= 0.001f*/)
+    MATH_INLINE vector<float, 3> safe_normalize(const vector<float, 3> & rhs, const float tolerance /*= 0.001f*/)
     {
         float l = sqrt((rhs.x * rhs.x) + (rhs.y * rhs.y) + (rhs.z * rhs.z));
         float il = (l > tolerance) ? (1.0f / l) : 1.0f;
@@ -814,7 +829,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 3> lerp(const vector<float, 3>& lhs, const vector<float, 3>& rhs, const float t)
+    MATH_INLINE vector<float, 3> lerp(const vector<float, 3> & lhs, const vector<float, 3> & rhs, const float t)
     {
         float oneMinusT = 1.0f - t;
         return
@@ -825,7 +840,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 3> cross(const vector<float, 3>& lhs, const vector<float, 3>& rhs)
+    MATH_INLINE vector<float, 3> cross(const vector<float, 3> & lhs, const vector<float, 3> & rhs)
     {
         return
         {
@@ -835,7 +850,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 3> operator+(const vector<float, 3>& lhs, const vector<float, 3>& rhs)
+    MATH_INLINE vector<float, 3> operator+(const vector<float, 3> & lhs, const vector<float, 3> & rhs)
     {
         return
         {
@@ -845,7 +860,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 3> operator-(const vector<float, 3>& lhs, const vector<float, 3>& rhs)
+    MATH_INLINE vector<float, 3> operator-(const vector<float, 3> & lhs, const vector<float, 3> & rhs)
     {
         return
         {
@@ -855,7 +870,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 3> operator*(const vector<float, 3>& lhs, const vector<float, 3>& rhs)
+    MATH_INLINE vector<float, 3> operator*(const vector<float, 3> & lhs, const vector<float, 3> & rhs)
     {
         return
         {
@@ -865,7 +880,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 3> operator*(const vector<float, 3>& lhs, const float rhs)
+    MATH_INLINE vector<float, 3> operator*(const vector<float, 3> & lhs, const float rhs)
     {
         return
         {
@@ -875,7 +890,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 3> operator/(const vector<float, 3>& lhs, const float rhs)
+    MATH_INLINE vector<float, 3> operator/(const vector<float, 3> & lhs, const float rhs)
     {
         float inv = 1.0f / rhs;
         return
@@ -886,7 +901,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 3> operator*(const float lhs, const vector<float, 3>& rhs)
+    MATH_INLINE vector<float, 3> operator*(const float lhs, const vector<float, 3> & rhs)
     {
         return
         {
@@ -918,37 +933,37 @@ namespace lina
         };
 
         vector(const float x, const float y, const float z, const float w);
-        
+
         vector(const vector<float, 4>& o);
-        
+
         vector(const vector<float, 3>& o, const float w);
-        
+
         vector(const vector<float, 2>& o, const float z, const float w);
-        
+
         vector(const float* p_data);
-        
+
         vector(const float o);
-        
+
         vector() = default;
 
         float length_squared() const;
-        
+
         float length() const;
-        
+
         vector<float, 4>& normalize();
-        
+
         vector<float, 4>& safe_normalize(const float tolerance = 0.001f);
 
         vector<float, 4>& operator+=(const vector<float, 4>& rhs);
-        
+
         vector<float, 4>& operator-=(const vector<float, 4>& rhs);
-        
+
         vector<float, 4>& operator*=(const vector<float, 4>& rhs);
-        
+
         vector<float, 4>& operator=(const vector<float, 4>& rhs);
 
         vector<float, 4>& operator*=(const float rhs);
-        
+
         vector<float, 4>& operator/=(const float rhs);
 
         vector<float, 4> operator-() const;
@@ -959,25 +974,25 @@ namespace lina
     };
 
     float dot(const vector<float, 4>& lhs, const vector<float, 4>& rhs);
-    
+
     float length_squared(const vector<float, 4>& val);
-    
+
     float length(const vector<float, 4>& rhs);
-    
+
     vector<float, 4> normalize(const vector<float, 4>& rhs);
-    
+
     vector<float, 4> safe_normalize(const vector<float, 4>& rhs, const float tolerance = 0.001f);
-    
+
     vector<float, 4> lerp(const vector<float, 4>& lhs, const vector<float, 4>& rhs, const float t);
-    
+
     vector<float, 4> operator+(const vector<float, 4>& lhs, const vector<float, 4>& rhs);
-    
+
     vector<float, 4> operator-(const vector<float, 4>& lhs, const vector<float, 4>& rhs);
-    
+
     vector<float, 4> operator*(const vector<float, 4>& lhs, const vector<float, 4>& rhs);
 
     vector<float, 4> operator*(const vector<float, 4>& lhs, const float rhs);
-    
+
     vector<float, 4> operator/(const vector<float, 4>& lhs, const float rhs);
 
     vector<float, 4> operator*(const float lhs, const vector<float, 4>& rhs);
@@ -1071,7 +1086,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE vector<float, 4>& vector<float, 4>::operator+=(const vector<float, 4>& rhs)
+    MATH_INLINE vector<float, 4>& vector<float, 4>::operator+=(const vector<float, 4> & rhs)
     {
         x += rhs.x;
         y += rhs.y;
@@ -1080,7 +1095,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE vector<float, 4>& vector<float, 4>::operator-=(const vector<float, 4>& rhs)
+    MATH_INLINE vector<float, 4>& vector<float, 4>::operator-=(const vector<float, 4> & rhs)
     {
         x -= rhs.x;
         y -= rhs.y;
@@ -1089,16 +1104,16 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE vector<float, 4>& vector<float, 4>::operator*=(const vector<float, 4>& rhs)
+    MATH_INLINE vector<float, 4>& vector<float, 4>::operator*=(const vector<float, 4> & rhs)
     {
         x *= rhs.x;
         y *= rhs.y;
         z *= rhs.z;
-        w *= rhs.w;        
+        w *= rhs.w;
         return *this;
     }
 
-    MATH_INLINE vector<float, 4>& vector<float, 4>::operator=(const vector<float, 4>& rhs)
+    MATH_INLINE vector<float, 4>& vector<float, 4>::operator=(const vector<float, 4> & rhs)
     {
         x = rhs.x;
         y = rhs.y;
@@ -1147,22 +1162,22 @@ namespace lina
         return p_cols[index];
     }
 
-    MATH_INLINE float dot(const vector<float, 4>& lhs, const vector<float, 4>& rhs)
+    MATH_INLINE float dot(const vector<float, 4> & lhs, const vector<float, 4> & rhs)
     {
         return (lhs.x * rhs.x) + (lhs.y * rhs.y) + (lhs.z * rhs.z) + (lhs.w * rhs.w);
     }
 
-    MATH_INLINE float length_squared(const vector<float, 4>& val)
+    MATH_INLINE float length_squared(const vector<float, 4> & val)
     {
         return (val.x * val.x) + (val.y * val.y) + (val.z * val.z) + (val.w * val.w);
     }
 
-    MATH_INLINE float length(const vector<float, 4>& rhs)
+    MATH_INLINE float length(const vector<float, 4> & rhs)
     {
         return sqrt((rhs.x * rhs.x) + (rhs.y * rhs.y) + (rhs.z * rhs.z) + (rhs.w * rhs.w));
     }
 
-    MATH_INLINE vector<float, 4> normalize(const vector<float, 4>& rhs)
+    MATH_INLINE vector<float, 4> normalize(const vector<float, 4> & rhs)
     {
         float il = 1.0f / sqrt((rhs.x * rhs.x) + (rhs.y * rhs.y) + (rhs.z * rhs.z) + (rhs.w * rhs.w));
         return
@@ -1174,7 +1189,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 4> safe_normalize(const vector<float, 4>& rhs, const float tolerance /*= 0.001f*/)
+    MATH_INLINE vector<float, 4> safe_normalize(const vector<float, 4> & rhs, const float tolerance /*= 0.001f*/)
     {
         float l = sqrt((rhs.x * rhs.x) + (rhs.y * rhs.y) + (rhs.z * rhs.z) + (rhs.w * rhs.w));
         float il = (l > tolerance) ? (1.0f / l) : 1.0f;
@@ -1187,7 +1202,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 4> lerp(const vector<float, 4>& lhs, const vector<float, 4>& rhs, const float t)
+    MATH_INLINE vector<float, 4> lerp(const vector<float, 4> & lhs, const vector<float, 4> & rhs, const float t)
     {
         float oneMinusT = 1.0f - t;
         return
@@ -1199,7 +1214,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 4> operator+(const vector<float, 4>& lhs, const vector<float, 4>& rhs)
+    MATH_INLINE vector<float, 4> operator+(const vector<float, 4> & lhs, const vector<float, 4> & rhs)
     {
         return
         {
@@ -1210,7 +1225,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 4> operator-(const vector<float, 4>& lhs, const vector<float, 4>& rhs)
+    MATH_INLINE vector<float, 4> operator-(const vector<float, 4> & lhs, const vector<float, 4> & rhs)
     {
         return
         {
@@ -1221,7 +1236,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 4> operator*(const vector<float, 4>& lhs, const vector<float, 4>& rhs)
+    MATH_INLINE vector<float, 4> operator*(const vector<float, 4> & lhs, const vector<float, 4> & rhs)
     {
         return
         {
@@ -1232,7 +1247,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 4> operator*(const vector<float, 4>& lhs, const float rhs)
+    MATH_INLINE vector<float, 4> operator*(const vector<float, 4> & lhs, const float rhs)
     {
         return
         {
@@ -1243,7 +1258,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 4> operator/(const vector<float, 4>& lhs, const float rhs)
+    MATH_INLINE vector<float, 4> operator/(const vector<float, 4> & lhs, const float rhs)
     {
         float inv = 1.0f / rhs;
         return
@@ -1255,7 +1270,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 4> operator*(const float lhs, const vector<float, 4>& rhs)
+    MATH_INLINE vector<float, 4> operator*(const float lhs, const vector<float, 4> & rhs)
     {
         return
         {
@@ -1289,29 +1304,29 @@ namespace lina
         };
 
         vector(const int x, const int y);
-        
+
         vector(const vector<int, 2>& o);
-        
+
         vector(const int* p_data);
-        
+
         vector(const int o);
-        
+
         vector() = default;
 
         int length_squared() const;
-        
+
         int length() const;
 
         vector<int, 2>& operator+=(const vector<int, 2>& rhs);
-        
+
         vector<int, 2>& operator-=(const vector<int, 2>& rhs);
-        
+
         vector<int, 2>& operator*=(const vector<int, 2>& rhs);
-        
+
         vector<int, 2>& operator=(const vector<int, 2>& rhs);
 
         vector<int, 2>& operator*=(const int rhs);
-        
+
         vector<int, 2>& operator/=(const int rhs);
 
         vector<int, 2> operator-() const;
@@ -1321,23 +1336,23 @@ namespace lina
         int operator[](const unsigned int index) const;
     };
 
-    int dot(const vector<int, 2>& lhs, const vector<int, 2>& rhs);
-    
-    int length_squared(const vector<int, 2>& val);
-    
-    int length(const vector<int, 2>& rhs);
+    int dot(const vector<int, 2> & lhs, const vector<int, 2> & rhs);
 
-    vector<int, 2> operator+(const vector<int, 2>& lhs, const vector<int, 2>& rhs);
-    
-    vector<int, 2> operator-(const vector<int, 2>& lhs, const vector<int, 2>& rhs);
-    
-    vector<int, 2> operator*(const vector<int, 2>& lhs, const vector<int, 2>& rhs);
-    
-    vector<int, 2> operator*(const vector<int, 2>& lhs, const int rhs);
-    
-    vector<int, 2> operator/(const vector<int, 2>& lhs, const int rhs);
-    
-    vector<int, 2> operator*(const int lhs, const vector<int, 2>& rhs);
+    int length_squared(const vector<int, 2> & val);
+
+    int length(const vector<int, 2> & rhs);
+
+    vector<int, 2> operator+(const vector<int, 2> & lhs, const vector<int, 2> & rhs);
+
+    vector<int, 2> operator-(const vector<int, 2> & lhs, const vector<int, 2> & rhs);
+
+    vector<int, 2> operator*(const vector<int, 2> & lhs, const vector<int, 2> & rhs);
+
+    vector<int, 2> operator*(const vector<int, 2> & lhs, const int rhs);
+
+    vector<int, 2> operator/(const vector<int, 2> & lhs, const int rhs);
+
+    vector<int, 2> operator*(const int lhs, const vector<int, 2> & rhs);
 
     MATH_INLINE vector<int, 2>::vector(const int x, const int y)
         : x(x)
@@ -1346,7 +1361,7 @@ namespace lina
 
     }
 
-    MATH_INLINE vector<int, 2>::vector(const vector<int, 2>& o)
+    MATH_INLINE vector<int, 2>::vector(const vector<int, 2> & o)
         : x(o.x)
         , y(o.y)
     {
@@ -1377,28 +1392,28 @@ namespace lina
         return abs(x) + abs(y);
     }
 
-    MATH_INLINE vector<int, 2>& vector<int, 2>::operator+=(const vector<int, 2>& rhs)
+    MATH_INLINE vector<int, 2>& vector<int, 2>::operator+=(const vector<int, 2> & rhs)
     {
         x += rhs.x;
         y += rhs.y;
         return *this;
     }
 
-    MATH_INLINE vector<int, 2>& vector<int, 2>::operator-=(const vector<int, 2>& rhs)
+    MATH_INLINE vector<int, 2>& vector<int, 2>::operator-=(const vector<int, 2> & rhs)
     {
         x -= rhs.x;
         y -= rhs.y;
         return *this;
     }
 
-    MATH_INLINE vector<int, 2>& vector<int, 2>::operator*=(const vector<int, 2>& rhs)
+    MATH_INLINE vector<int, 2>& vector<int, 2>::operator*=(const vector<int, 2> & rhs)
     {
         x *= rhs.x;
         y *= rhs.y;
         return *this;
     }
 
-    MATH_INLINE vector<int, 2>& vector<int, 2>::operator=(const vector<int, 2>& rhs)
+    MATH_INLINE vector<int, 2>& vector<int, 2>::operator=(const vector<int, 2> & rhs)
     {
         x = rhs.x;
         y = rhs.y;
@@ -1438,22 +1453,22 @@ namespace lina
         return p_cols[index];
     }
 
-    MATH_INLINE int dot(const vector<int, 2>& lhs, const vector<int, 2>& rhs)
+    MATH_INLINE int dot(const vector<int, 2> & lhs, const vector<int, 2> & rhs)
     {
         return (lhs.x * rhs.x) + (lhs.y * rhs.y);
     }
 
-    MATH_INLINE int length_squared(const vector<int, 2>& val)
+    MATH_INLINE int length_squared(const vector<int, 2> & val)
     {
         return (val.x * val.x) + (val.y * val.y);
     }
 
-    MATH_INLINE int length(const vector<int, 2>& rhs)
+    MATH_INLINE int length(const vector<int, 2> & rhs)
     {
         return abs(rhs.x) + abs(rhs.y);
     }
 
-    MATH_INLINE vector<int, 2> operator+(const vector<int, 2>& lhs, const vector<int, 2>& rhs)
+    MATH_INLINE vector<int, 2> operator+(const vector<int, 2> & lhs, const vector<int, 2> & rhs)
     {
         return
         {
@@ -1462,7 +1477,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<int, 2> operator-(const vector<int, 2>& lhs, const vector<int, 2>& rhs)
+    MATH_INLINE vector<int, 2> operator-(const vector<int, 2> & lhs, const vector<int, 2> & rhs)
     {
         return
         {
@@ -1471,7 +1486,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<int, 2> operator*(const vector<int, 2>& lhs, const vector<int, 2>& rhs)
+    MATH_INLINE vector<int, 2> operator*(const vector<int, 2> & lhs, const vector<int, 2> & rhs)
     {
         return
         {
@@ -1480,7 +1495,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<int, 2> operator*(const vector<int, 2>& lhs, const int rhs)
+    MATH_INLINE vector<int, 2> operator*(const vector<int, 2> & lhs, const int rhs)
     {
         return
         {
@@ -1489,7 +1504,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<int, 2> operator/(const vector<int, 2>& lhs, const int rhs)
+    MATH_INLINE vector<int, 2> operator/(const vector<int, 2> & lhs, const int rhs)
     {
         return
         {
@@ -1498,7 +1513,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<int, 2> operator*(const int lhs, const vector<int, 2>& rhs)
+    MATH_INLINE vector<int, 2> operator*(const int lhs, const vector<int, 2> & rhs)
     {
         return
         {
@@ -1530,33 +1545,33 @@ namespace lina
         };
 
         vector(const int x, const int y, const int z);
-        
+
         vector(const vector<int, 3>& o);
-        
+
         vector(const vector<int, 2>& o, const int z);
-        
+
         vector(const int* p_data);
-        
+
         vector(const int o);
-        
+
         vector() = default;
 
         int length_squared() const;
-        
+
         int length() const;
 
         vector<int, 3>& operator+=(const vector<int, 3>& rhs);
-        
+
         vector<int, 3>& operator-=(const vector<int, 3>& rhs);
-        
+
         vector<int, 3>& operator*=(const vector<int, 3>& rhs);
-        
+
         vector<int, 3>& operator=(const vector<int, 3>& rhs);
-        
+
         vector<int, 3>& operator*=(const int rhs);
-        
+
         vector<int, 3>& operator/=(const int rhs);
-        
+
         vector<int, 3> operator-() const;
 
         int& operator[](const unsigned int index);
@@ -1564,23 +1579,23 @@ namespace lina
         int operator[](const unsigned int index) const;
     };
 
-    int dot(const vector<int, 3>& lhs, const vector<int, 3>& rhs);
-    
-    int length_squared(const vector<int, 3>& val);
-    
-    int length(const vector<int, 3>& rhs);
+    int dot(const vector<int, 3> & lhs, const vector<int, 3> & rhs);
 
-    vector<int, 3> operator+(const vector<int, 3>& lhs, const vector<int, 3>& rhs);
-    
-    vector<int, 3> operator-(const vector<int, 3>& lhs, const vector<int, 3>& rhs);
-    
-    vector<int, 3> operator*(const vector<int, 3>& lhs, const vector<int, 3>& rhs);
-    
-    vector<int, 3> operator*(const vector<int, 3>& lhs, const int rhs);
-    
-    vector<int, 3> operator/(const vector<int, 3>& lhs, const int rhs);
-    
-    vector<int, 3> operator*(const int lhs, const vector<int, 3>& rhs);
+    int length_squared(const vector<int, 3> & val);
+
+    int length(const vector<int, 3> & rhs);
+
+    vector<int, 3> operator+(const vector<int, 3> & lhs, const vector<int, 3> & rhs);
+
+    vector<int, 3> operator-(const vector<int, 3> & lhs, const vector<int, 3> & rhs);
+
+    vector<int, 3> operator*(const vector<int, 3> & lhs, const vector<int, 3> & rhs);
+
+    vector<int, 3> operator*(const vector<int, 3> & lhs, const int rhs);
+
+    vector<int, 3> operator/(const vector<int, 3> & lhs, const int rhs);
+
+    vector<int, 3> operator*(const int lhs, const vector<int, 3> & rhs);
 
     MATH_INLINE vector<int, 3>::vector(const int x, const int y, const int z)
         : x(x)
@@ -1590,7 +1605,7 @@ namespace lina
 
     }
 
-    MATH_INLINE vector<int, 3>::vector(const vector<int, 3>& o)
+    MATH_INLINE vector<int, 3>::vector(const vector<int, 3> & o)
         : x(o.x)
         , y(o.y)
         , z(o.z)
@@ -1598,7 +1613,7 @@ namespace lina
 
     }
 
-    MATH_INLINE vector<int, 3>::vector(const vector<int, 2>& o, const int z)
+    MATH_INLINE vector<int, 3>::vector(const vector<int, 2> & o, const int z)
         : x(o.x)
         , y(o.y)
         , z(z)
@@ -1632,7 +1647,7 @@ namespace lina
         return abs(x) + abs(y) + abs(z);
     }
 
-    MATH_INLINE vector<int, 3>& vector<int, 3>::operator+=(const vector<int, 3>& rhs)
+    MATH_INLINE vector<int, 3>& vector<int, 3>::operator+=(const vector<int, 3> & rhs)
     {
         x += rhs.x;
         y += rhs.y;
@@ -1640,7 +1655,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE vector<int, 3>& vector<int, 3>::operator-=(const vector<int, 3>& rhs)
+    MATH_INLINE vector<int, 3>& vector<int, 3>::operator-=(const vector<int, 3> & rhs)
     {
         x -= rhs.x;
         y -= rhs.y;
@@ -1648,7 +1663,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE vector<int, 3>& vector<int, 3>::operator*=(const vector<int, 3>& rhs)
+    MATH_INLINE vector<int, 3>& vector<int, 3>::operator*=(const vector<int, 3> & rhs)
     {
         x *= rhs.x;
         y *= rhs.y;
@@ -1656,7 +1671,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE vector<int, 3>& vector<int, 3>::operator=(const vector<int, 3>& rhs)
+    MATH_INLINE vector<int, 3>& vector<int, 3>::operator=(const vector<int, 3> & rhs)
     {
         x = rhs.x;
         y = rhs.y;
@@ -1700,22 +1715,22 @@ namespace lina
         return p_cols[index];
     }
 
-    MATH_INLINE int dot(const vector<int, 3>& lhs, const vector<int, 3>& rhs)
+    MATH_INLINE int dot(const vector<int, 3> & lhs, const vector<int, 3> & rhs)
     {
         return (lhs.x * rhs.x) + (lhs.y * rhs.y) + (lhs.z * rhs.z);
     }
 
-    MATH_INLINE int length_squared(const vector<int, 3>& val)
+    MATH_INLINE int length_squared(const vector<int, 3> & val)
     {
         return (val.x * val.x) + (val.y * val.y) + (val.z * val.z);
     }
 
-    MATH_INLINE int length(const vector<int, 3>& rhs)
+    MATH_INLINE int length(const vector<int, 3> & rhs)
     {
         return abs(rhs.x) + abs(rhs.y) + abs(rhs.z);
     }
 
-    MATH_INLINE vector<int, 3> operator+(const vector<int, 3>& lhs, const vector<int, 3>& rhs)
+    MATH_INLINE vector<int, 3> operator+(const vector<int, 3> & lhs, const vector<int, 3> & rhs)
     {
         return
         {
@@ -1725,7 +1740,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<int, 3> operator-(const vector<int, 3>& lhs, const vector<int, 3>& rhs)
+    MATH_INLINE vector<int, 3> operator-(const vector<int, 3> & lhs, const vector<int, 3> & rhs)
     {
         return
         {
@@ -1735,7 +1750,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<int, 3> operator*(const vector<int, 3>& lhs, const vector<int, 3>& rhs)
+    MATH_INLINE vector<int, 3> operator*(const vector<int, 3> & lhs, const vector<int, 3> & rhs)
     {
         return
         {
@@ -1745,7 +1760,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<int, 3> operator*(const vector<int, 3>& lhs, const int rhs)
+    MATH_INLINE vector<int, 3> operator*(const vector<int, 3> & lhs, const int rhs)
     {
         return
         {
@@ -1755,7 +1770,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<int, 3> operator/(const vector<int, 3>& lhs, const int rhs)
+    MATH_INLINE vector<int, 3> operator/(const vector<int, 3> & lhs, const int rhs)
     {
         return
         {
@@ -1765,7 +1780,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<int, 3> operator*(const int lhs, const vector<int, 3>& rhs)
+    MATH_INLINE vector<int, 3> operator*(const int lhs, const vector<int, 3> & rhs)
     {
         return
         {
@@ -1797,33 +1812,33 @@ namespace lina
         };
 
         vector(const int x, const int y, const int z, const int w);
-        
+
         vector(const vector<int, 4>& o);
-        
+
         vector(const vector<int, 3>& o, const int w);
-        
+
         vector(const vector<int, 2>& o, const int z, const int w);
-        
+
         vector(const int* p_data);
-        
+
         vector(const int o);
-        
+
         vector() = default;
 
         int length_squared() const;
-        
+
         int length() const;
 
         vector<int, 4>& operator+=(const vector<int, 4>& rhs);
-        
+
         vector<int, 4>& operator-=(const vector<int, 4>& rhs);
-        
+
         vector<int, 4>& operator*=(const vector<int, 4>& rhs);
-        
+
         vector<int, 4>& operator=(const vector<int, 4>& rhs);
 
         vector<int, 4>& operator*=(const int rhs);
-        
+
         vector<int, 4>& operator/=(const int rhs);
 
         vector<int, 4> operator-() const;
@@ -1833,23 +1848,23 @@ namespace lina
         int operator[](const unsigned int index) const;
     };
 
-    int dot(const vector<int, 4>& lhs, const vector<int, 4>& rhs);
-    
-    int length_squared(const vector<int, 4>& val);
-    
-    int length(const vector<int, 4>& rhs);
+    int dot(const vector<int, 4> & lhs, const vector<int, 4> & rhs);
 
-    vector<int, 4> operator+(const vector<int, 4>& lhs, const vector<int, 4>& rhs);
-    
-    vector<int, 4> operator-(const vector<int, 4>& lhs, const vector<int, 4>& rhs);
-    
-    vector<int, 4> operator*(const vector<int, 4>& lhs, const vector<int, 4>& rhs);
-    
-    vector<int, 4> operator*(const vector<int, 4>& lhs, const int rhs);
-    
-    vector<int, 4> operator/(const vector<int, 4>& lhs, const int rhs);
-    
-    vector<int, 4> operator*(const int lhs, const vector<int, 4>& rhs);
+    int length_squared(const vector<int, 4> & val);
+
+    int length(const vector<int, 4> & rhs);
+
+    vector<int, 4> operator+(const vector<int, 4> & lhs, const vector<int, 4> & rhs);
+
+    vector<int, 4> operator-(const vector<int, 4> & lhs, const vector<int, 4> & rhs);
+
+    vector<int, 4> operator*(const vector<int, 4> & lhs, const vector<int, 4> & rhs);
+
+    vector<int, 4> operator*(const vector<int, 4> & lhs, const int rhs);
+
+    vector<int, 4> operator/(const vector<int, 4> & lhs, const int rhs);
+
+    vector<int, 4> operator*(const int lhs, const vector<int, 4> & rhs);
 
     MATH_INLINE vector<int, 4>::vector(const int x, const int y, const int z, const int w)
         : x(x)
@@ -1860,7 +1875,7 @@ namespace lina
 
     }
 
-    MATH_INLINE vector<int, 4>::vector(const vector<int, 4>& o)
+    MATH_INLINE vector<int, 4>::vector(const vector<int, 4> & o)
         : x(o.x)
         , y(o.y)
         , z(o.z)
@@ -1869,7 +1884,7 @@ namespace lina
 
     }
 
-    MATH_INLINE vector<int, 4>::vector(const vector<int, 3>& o, const int w)
+    MATH_INLINE vector<int, 4>::vector(const vector<int, 3> & o, const int w)
         : x(o.x)
         , y(o.y)
         , z(o.z)
@@ -1878,7 +1893,7 @@ namespace lina
 
     }
 
-    MATH_INLINE vector<int, 4>::vector(const vector<int, 2>& o, const int z, const int w)
+    MATH_INLINE vector<int, 4>::vector(const vector<int, 2> & o, const int z, const int w)
         : x(o.x)
         , y(o.y)
         , z(z)
@@ -1915,7 +1930,7 @@ namespace lina
         return abs(x) + abs(y) + abs(z) + abs(w);
     }
 
-    MATH_INLINE vector<int, 4>& vector<int, 4>::operator+=(const vector<int, 4>& rhs)
+    MATH_INLINE vector<int, 4>& vector<int, 4>::operator+=(const vector<int, 4> & rhs)
     {
         x += rhs.x;
         y += rhs.y;
@@ -1924,7 +1939,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE vector<int, 4>& vector<int, 4>::operator-=(const vector<int, 4>& rhs)
+    MATH_INLINE vector<int, 4>& vector<int, 4>::operator-=(const vector<int, 4> & rhs)
     {
         x -= rhs.x;
         y -= rhs.y;
@@ -1933,7 +1948,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE vector<int, 4>& vector<int, 4>::operator*=(const vector<int, 4>& rhs)
+    MATH_INLINE vector<int, 4>& vector<int, 4>::operator*=(const vector<int, 4> & rhs)
     {
         x *= rhs.x;
         y *= rhs.y;
@@ -1942,7 +1957,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE vector<int, 4>& vector<int, 4>::operator=(const vector<int, 4>& rhs)
+    MATH_INLINE vector<int, 4>& vector<int, 4>::operator=(const vector<int, 4> & rhs)
     {
         x = rhs.x;
         y = rhs.y;
@@ -1990,22 +2005,22 @@ namespace lina
         return p_cols[index];
     }
 
-    MATH_INLINE int dot(const vector<int, 4>& lhs, const vector<int, 4>& rhs)
+    MATH_INLINE int dot(const vector<int, 4> & lhs, const vector<int, 4> & rhs)
     {
         return (lhs.x * rhs.x) + (lhs.y * rhs.y) + (lhs.z * rhs.z) + (lhs.w * rhs.w);
     }
 
-    MATH_INLINE int length_squared(const vector<int, 4>& val)
+    MATH_INLINE int length_squared(const vector<int, 4> & val)
     {
         return (val.x * val.x) + (val.y * val.y) + (val.z * val.z) + (val.w * val.w);
     }
 
-    MATH_INLINE int length(const vector<int, 4>& rhs)
+    MATH_INLINE int length(const vector<int, 4> & rhs)
     {
         return abs(rhs.x) + abs(rhs.y) + abs(rhs.z) + abs(rhs.w);
     }
 
-    MATH_INLINE vector<int, 4> operator+(const vector<int, 4>& lhs, const vector<int, 4>& rhs)
+    MATH_INLINE vector<int, 4> operator+(const vector<int, 4> & lhs, const vector<int, 4> & rhs)
     {
         return
         {
@@ -2016,7 +2031,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<int, 4> operator-(const vector<int, 4>& lhs, const vector<int, 4>& rhs)
+    MATH_INLINE vector<int, 4> operator-(const vector<int, 4> & lhs, const vector<int, 4> & rhs)
     {
         return
         {
@@ -2027,7 +2042,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<int, 4> operator*(const vector<int, 4>& lhs, const vector<int, 4>& rhs)
+    MATH_INLINE vector<int, 4> operator*(const vector<int, 4> & lhs, const vector<int, 4> & rhs)
     {
         return
         {
@@ -2038,7 +2053,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<int, 4> operator*(const vector<int, 4>& lhs, const int rhs)
+    MATH_INLINE vector<int, 4> operator*(const vector<int, 4> & lhs, const int rhs)
     {
         return
         {
@@ -2049,7 +2064,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<int, 4> operator/(const vector<int, 4>& lhs, const int rhs)
+    MATH_INLINE vector<int, 4> operator/(const vector<int, 4> & lhs, const int rhs)
     {
         return
         {
@@ -2060,7 +2075,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<int, 4> operator*(const int lhs, const vector<int, 4>& rhs)
+    MATH_INLINE vector<int, 4> operator*(const int lhs, const vector<int, 4> & rhs)
     {
         return
         {
@@ -2081,68 +2096,68 @@ namespace lina
         T p_data[Rows * Cols];
 
         matrix(const T* p_data);
-        
+
         matrix(const matrix<T, Rows, Cols>& o);
-        
+
         matrix(const T o);
-        
+
         matrix() = default;
 
         matrix<T, Rows, Cols> transpose() const;
-        
+
         matrix<T, Rows, Cols> inverse() const;
-        
+
         matrix<T, Rows, Cols> adjoint() const;
-        
+
         T determinant() const;
-        
+
         T minor() const;
-        
+
         T cofactor(unsigned int i, unsigned int j) const;
 
         matrix<T, Rows, Cols>& operator+=(const matrix<T, Rows, Cols>& rhs);
-        
+
         matrix<T, Rows, Cols>& operator-=(const matrix<T, Rows, Cols>& rhs);
 
         matrix<T, Rows, Cols>& operator+=(const T rhs);
-        
+
         matrix<T, Rows, Cols>& operator-=(const T rhs);
-        
+
         matrix<T, Rows, Cols>& operator*=(const T rhs);
-        
+
         matrix<T, Rows, Cols>& operator/=(const T rhs);
 
         matrix<T, Rows, Cols> operator-() const;
     };
 
-    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator+(const matrix<T, Rows, Cols>& lhs, const matrix<T, Rows, Cols>& rhs);
-    
-    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator-(const matrix<T, Rows, Cols>& lhs, const matrix<T, Rows, Cols>& rhs);
-    
-    template<typename T, unsigned int R0, unsigned int C0, unsigned int R1, unsigned int C1> matrix<T, R0, C1> operator*(const matrix<T, R0, C0>& lhs, const matrix<T, R1, C1>& rhs);
+    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator+(const matrix<T, Rows, Cols> & lhs, const matrix<T, Rows, Cols> & rhs);
 
-    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator+(const matrix<T, Rows, Cols>& lhs, const T rhs);
-    
-    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator-(const matrix<T, Rows, Cols>& lhs, const T rhs);
-    
-    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator*(const matrix<T, Rows, Cols>& lhs, const T rhs);
-    
-    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator/(const matrix<T, Rows, Cols>& lhs, const T rhs);
+    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator-(const matrix<T, Rows, Cols> & lhs, const matrix<T, Rows, Cols> & rhs);
 
-    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator+(const T lhs, const matrix<T, Rows, Cols>& rhs);
-    
-    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator-(const T lhs, const matrix<T, Rows, Cols>& rhs);
-    
-    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator*(const T lhs, const matrix<T, Rows, Cols>& rhs);
+    template<typename T, unsigned int R0, unsigned int C0, unsigned int R1, unsigned int C1> matrix<T, R0, C1> operator*(const matrix<T, R0, C0> & lhs, const matrix<T, R1, C1> & rhs);
 
-    template<typename T, unsigned int Rows, unsigned int Cols, unsigned int N> vector<T, N> operator*(const vector<T, N>& lhs, const matrix<T, Rows, Cols>& rhs);
+    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator+(const matrix<T, Rows, Cols> & lhs, const T rhs);
 
-    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols>::matrix(const T* p_in)
+    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator-(const matrix<T, Rows, Cols> & lhs, const T rhs);
+
+    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator*(const matrix<T, Rows, Cols> & lhs, const T rhs);
+
+    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator/(const matrix<T, Rows, Cols> & lhs, const T rhs);
+
+    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator+(const T lhs, const matrix<T, Rows, Cols> & rhs);
+
+    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator-(const T lhs, const matrix<T, Rows, Cols> & rhs);
+
+    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator*(const T lhs, const matrix<T, Rows, Cols> & rhs);
+
+    template<typename T, unsigned int Rows, unsigned int Cols, unsigned int N> vector<T, N> operator*(const vector<T, N> & lhs, const matrix<T, Rows, Cols> & rhs);
+
+    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols>::matrix(const T * p_in)
     {
         for (unsigned int i = 0, n = Rows * Cols; i < n; ++i) p_data[i] = p_in[i];
     }
 
-    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols>::matrix(const matrix<T, Rows, Cols>& o)
+    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols>::matrix(const matrix<T, Rows, Cols> & o)
     {
         for (unsigned int i = 0, n = Rows * Cols; i < n; ++i) p_data[i] = o.p_data[i];
     }
@@ -2224,13 +2239,13 @@ namespace lina
         return sign * minor(rhs, i, j);
     }
 
-    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator+=(const matrix<T, Rows, Cols>& rhs)
+    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> & matrix<T, Rows, Cols>::operator+=(const matrix<T, Rows, Cols> & rhs)
     {
         for (unsigned int i = 0, n = Rows * Cols; i < n; ++i) p_data[i] += rhs.p_data[i];
         return *this;
     }
 
-    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator-=(const matrix<T, Rows, Cols>& rhs)
+    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols>& matrix<T, Rows, Cols>::operator-=(const matrix<T, Rows, Cols> & rhs)
     {
         for (unsigned int i = 0, n = Rows * Cols; i < n; ++i) p_data[i] -= rhs.p_data[i];
         return *this;
@@ -2267,21 +2282,21 @@ namespace lina
         return result;
     }
 
-    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator+(const matrix<T, Rows, Cols>& lhs, const matrix<T, Rows, Cols>& rhs)
+    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator+(const matrix<T, Rows, Cols> & lhs, const matrix<T, Rows, Cols> & rhs)
     {
         matrix<T, Rows, Cols> out;
         for (unsigned int i = 0, n = Rows * Cols; i < n; ++i) out.p_data[i] = lhs.p_data[i] + rhs.p_data[i];
         return out;
     }
 
-    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator-(const matrix<T, Rows, Cols>& lhs, const matrix<T, Rows, Cols>& rhs)
+    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator-(const matrix<T, Rows, Cols> & lhs, const matrix<T, Rows, Cols> & rhs)
     {
         matrix<T, Rows, Cols> out;
         for (unsigned int i = 0, n = Rows * Cols; i < n; ++i) out.p_data[i] = lhs.p_data[i] - rhs.p_data[i];
         return out;
     }
 
-    template<typename T, unsigned int R0, unsigned int C0, unsigned int R1, unsigned int C1> matrix<T, R0, C1> operator*(const matrix<T, R0, C0>& lhs, const matrix<T, R1, C1>& rhs)
+    template<typename T, unsigned int R0, unsigned int C0, unsigned int R1, unsigned int C1> matrix<T, R0, C1> operator*(const matrix<T, R0, C0> & lhs, const matrix<T, R1, C1> & rhs)
     {
         static_assert(C0 == R1, "Dimension Mismatch");
 
@@ -2307,7 +2322,7 @@ namespace lina
         return out;
     }
 
-    template<typename T, unsigned int Rows, unsigned int Cols, unsigned int N> vector<T, N> operator*(const vector<T, N>& lhs, const matrix<T, Rows, Cols>& rhs)
+    template<typename T, unsigned int Rows, unsigned int Cols, unsigned int N> vector<T, N> operator*(const vector<T, N> & lhs, const matrix<T, Rows, Cols> & rhs)
     {
         static_assert(N == Rows, "Dimension Mismatch");
         vector<T, Cols> out;
@@ -2328,49 +2343,49 @@ namespace lina
         return out;
     }
 
-    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator+(const matrix<T, Rows, Cols>& lhs, const T rhs)
+    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator+(const matrix<T, Rows, Cols> & lhs, const T rhs)
     {
         matrix<T, Rows, Cols> out;
         for (unsigned int i = 0, n = Rows * Cols; i < n; ++i) out.p_data[i] = lhs.p_data[i] + rhs;
         return out;
     }
 
-    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator-(const matrix<T, Rows, Cols>& lhs, const T rhs)
+    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator-(const matrix<T, Rows, Cols> & lhs, const T rhs)
     {
         matrix<T, Rows, Cols> out;
         for (unsigned int i = 0, n = Rows * Cols; i < n; ++i) out.p_data[i] = lhs.p_data[i] - rhs;
         return out;
     }
 
-    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator*(const matrix<T, Rows, Cols>& lhs, const T rhs)
+    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator*(const matrix<T, Rows, Cols> & lhs, const T rhs)
     {
         matrix<T, Rows, Cols> out;
         for (unsigned int i = 0, n = Rows * Cols; i < n; ++i) out.p_data[i] = lhs.p_data[i] * rhs;
         return out;
     }
 
-    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator/(const matrix<T, Rows, Cols>& lhs, const T rhs)
+    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator/(const matrix<T, Rows, Cols> & lhs, const T rhs)
     {
         matrix<T, Rows, Cols> out;
         for (unsigned int i = 0, n = Rows * Cols; i < n; ++i) out.p_data[i] = lhs.p_data[i] / rhs;
         return out;
     }
 
-    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator+(const T lhs, const matrix<T, Rows, Cols>& rhs)
+    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator+(const T lhs, const matrix<T, Rows, Cols> & rhs)
     {
         matrix<T, Rows, Cols> out;
         for (unsigned int i = 0, n = Rows * Cols; i < n; ++i) out.p_data[i] = lhs + rhs.p_data[i];
         return out;
     }
 
-    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator-(const T lhs, const matrix<T, Rows, Cols>& rhs)
+    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator-(const T lhs, const matrix<T, Rows, Cols> & rhs)
     {
         matrix<T, Rows, Cols> out;
         for (unsigned int i = 0, n = Rows * Cols; i < n; ++i) out.p_data[i] = lhs - rhs.p_data[i];
         return out;
     }
 
-    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator*(const T lhs, const matrix<T, Rows, Cols>& rhs)
+    template<typename T, unsigned int Rows, unsigned int Cols> matrix<T, Rows, Cols> operator*(const T lhs, const matrix<T, Rows, Cols> & rhs)
     {
         matrix<T, Rows, Cols> out;
         for (unsigned int i = 0, n = Rows * Cols; i < n; ++i) out.p_data[i] = lhs * rhs.p_data[i];
@@ -2398,54 +2413,54 @@ namespace lina
             };
 
             vector<float, 2> p_rows[2];
-            
+
             float p_data[4];
         };
 
         matrix(const float u1, const float u2, const float v1, const float v2);
-        
+
         matrix(const vector<float, 2>& u, const vector<float, 2>& v);
-        
+
         matrix(const matrix<float, 2, 2>& other);
-        
+
         matrix(const float* o);
-        
+
         matrix() = default;
 
         matrix<float, 2, 2>& operator+=(const matrix<float, 2, 2>& rhs);
-        
+
         matrix<float, 2, 2>& operator-=(const matrix<float, 2, 2>& rhs);
-        
+
         matrix<float, 2, 2>& operator*=(const float rhs);
 
         matrix<float, 2, 2>& operator=(const matrix<float, 2, 2>& rhs);
-        
+
         matrix<float, 2, 2> operator-() const;
 
         vector<float, 2>& operator[](const unsigned int index);
-        
+
         vector<float, 2> operator[](const unsigned int index) const;
 
         float operator()(const unsigned int row, const unsigned int column);
 
         matrix<float, 2, 2> transpose() const;
-        
+
         matrix<float, 2, 2> inverse() const;
-        
+
         float determinant()	const;
     };
 
-    matrix<float, 2, 2> operator+(const matrix<float, 2, 2>& lhs, const matrix<float, 2, 2>& rhs);
-    
-    matrix<float, 2, 2> operator-(const matrix<float, 2, 2>& lhs, const matrix<float, 2, 2>& rhs);
-    
-    matrix<float, 2, 2> operator*(const matrix<float, 2, 2>& lhs, const matrix<float, 2, 2>& rhs);
-    
-    matrix<float, 2, 2> operator*(const matrix<float, 2, 2>& lhs, const float rhs);
-    
-    matrix<float, 2, 2> operator*(const float lhs, const matrix<float, 2, 2>& rhs);
-    
-    vector<float, 2> operator*(const vector<float, 2>& lhs, const matrix<float, 2, 2>& rhs);
+    matrix<float, 2, 2> operator+(const matrix<float, 2, 2> & lhs, const matrix<float, 2, 2> & rhs);
+
+    matrix<float, 2, 2> operator-(const matrix<float, 2, 2> & lhs, const matrix<float, 2, 2> & rhs);
+
+    matrix<float, 2, 2> operator*(const matrix<float, 2, 2> & lhs, const matrix<float, 2, 2> & rhs);
+
+    matrix<float, 2, 2> operator*(const matrix<float, 2, 2> & lhs, const float rhs);
+
+    matrix<float, 2, 2> operator*(const float lhs, const matrix<float, 2, 2> & rhs);
+
+    vector<float, 2> operator*(const vector<float, 2> & lhs, const matrix<float, 2, 2> & rhs);
 
     MATH_INLINE matrix<float, 2, 2>::matrix(const float u1, const float u2, const float v1, const float v2)
         : m00(u1), m01(u2)
@@ -2454,32 +2469,32 @@ namespace lina
 
     }
 
-    MATH_INLINE matrix<float, 2, 2>::matrix(const vector<float, 2>& u, const vector<float, 2>& v) 
+    MATH_INLINE matrix<float, 2, 2>::matrix(const vector<float, 2> & u, const vector<float, 2> & v)
         : matrix(u.x, u.y, v.x, v.y)
     {
 
     }
 
-    MATH_INLINE matrix<float, 2, 2>::matrix(const matrix<float, 2, 2>& other) 
+    MATH_INLINE matrix<float, 2, 2>::matrix(const matrix<float, 2, 2> & other)
         : matrix<float, 2, 2>(other.u.x, other.u.y, other.v.x, other.v.y)
     {
 
     }
 
-    MATH_INLINE matrix<float, 2, 2>::matrix(const float* o) 
+    MATH_INLINE matrix<float, 2, 2>::matrix(const float* o)
         : matrix<float, 2, 2>(o[0], o[1], o[2], o[3])
     {
 
     }
 
-    MATH_INLINE matrix<float, 2, 2>& matrix<float, 2, 2>::operator+=(const matrix<float, 2, 2>& rhs)
+    MATH_INLINE matrix<float, 2, 2>& matrix<float, 2, 2>::operator+=(const matrix<float, 2, 2> & rhs)
     {
         u += rhs.u;
         v += rhs.v;
         return *this;
     }
 
-    MATH_INLINE matrix<float, 2, 2>& matrix<float, 2, 2>::operator-=(const matrix<float, 2, 2>& rhs)
+    MATH_INLINE matrix<float, 2, 2>& matrix<float, 2, 2>::operator-=(const matrix<float, 2, 2> & rhs)
     {
         u -= rhs.u;
         v -= rhs.v;
@@ -2493,7 +2508,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE matrix<float, 2, 2>& matrix<float, 2, 2>::operator=(const matrix<float, 2, 2>& rhs)
+    MATH_INLINE matrix<float, 2, 2>& matrix<float, 2, 2>::operator=(const matrix<float, 2, 2> & rhs)
     {
         u = rhs.u;
         v = rhs.v;
@@ -2548,7 +2563,7 @@ namespace lina
         return (p_data[0] * p_data[3]) - (p_data[1] * p_data[2]);
     }
 
-    MATH_INLINE matrix<float, 2, 2> operator+(const matrix<float, 2, 2>& lhs, const matrix<float, 2, 2>& rhs)
+    MATH_INLINE matrix<float, 2, 2> operator+(const matrix<float, 2, 2> & lhs, const matrix<float, 2, 2> & rhs)
     {
         return
         {
@@ -2557,7 +2572,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE matrix<float, 2, 2> operator-(const matrix<float, 2, 2>& lhs, const matrix<float, 2, 2>& rhs)
+    MATH_INLINE matrix<float, 2, 2> operator-(const matrix<float, 2, 2> & lhs, const matrix<float, 2, 2> & rhs)
     {
         return
         {
@@ -2566,7 +2581,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE matrix<float, 2, 2> operator*(const matrix<float, 2, 2>& lhs, const matrix<float, 2, 2>& rhs)
+    MATH_INLINE matrix<float, 2, 2> operator*(const matrix<float, 2, 2> & lhs, const matrix<float, 2, 2> & rhs)
     {
         return
         {
@@ -2578,7 +2593,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 2> operator*(const vector<float, 2>& lhs, const matrix<float, 2, 2>& rhs)
+    MATH_INLINE vector<float, 2> operator*(const vector<float, 2> & lhs, const matrix<float, 2, 2> & rhs)
     {
         return
         {
@@ -2587,12 +2602,12 @@ namespace lina
         };
     }
 
-    MATH_INLINE matrix<float, 2, 2> operator*(const float lhs, const matrix<float, 2, 2>& rhs)
+    MATH_INLINE matrix<float, 2, 2> operator*(const float lhs, const matrix<float, 2, 2> & rhs)
     {
         return rhs * lhs;
     }
 
-    MATH_INLINE matrix<float, 2, 2> operator*(const matrix<float, 2, 2>& lhs, const float rhs)
+    MATH_INLINE matrix<float, 2, 2> operator*(const matrix<float, 2, 2> & lhs, const float rhs)
     {
         return
         {
@@ -2623,7 +2638,7 @@ namespace lina
             };
 
             vector<float, 3> p_rows[3];
-            
+
             float p_data[9];
         };
 
@@ -2634,63 +2649,63 @@ namespace lina
         static matrix<float, 3, 3> orientation_rh(const vector<float, 3>& direction, const vector<float, 3>& up);
 
         static matrix<float, 3, 3> scale(const vector<float, 3>& s);
-        
+
         static matrix<float, 3, 3> rotate(const float radians, const vector<float, 3>& a);
-        
+
         static matrix<float, 3, 3> rotate_x(const float radians);
-        
+
         static matrix<float, 3, 3> rotate_y(const float radians);
-        
+
         static matrix<float, 3, 3> rotate_z(const float radians);
-        
+
         static matrix<float, 3, 3> identity();
 
         matrix(const float u1, const float u2, const float u3, const float v1, const float v2, const float v3, const float w1, const float w2, const float w3);
-        
+
         matrix(const vector<float, 3>& u, const vector<float, 3>& v, const vector<float, 3>& w);
-        
+
         matrix(const matrix& other);
-        
+
         matrix(const float* o);
-        
+
         matrix() = default;
 
         matrix<float, 3, 3> transpose() const;
-        
+
         matrix<float, 3, 3> inverse() const;
-        
+
         float determinant()	const;
 
         vector<float, 3> euler() const;
 
         matrix<float, 3, 3>& operator+=(const matrix<float, 3, 3>& rhs);
-        
+
         matrix<float, 3, 3>& operator-=(const matrix<float, 3, 3>& rhs);
-        
+
         matrix<float, 3, 3>& operator*=(const float rhs);
 
         matrix<float, 3, 3>& operator=(const matrix<float, 3, 3>& rhs);
-        
+
         matrix<float, 3, 3> operator-() const;
 
         vector<float, 3>& operator[](const unsigned int index);
 
         vector<float, 3> operator[](const unsigned int index) const;
-        
+
         float operator()(const unsigned int row, const unsigned int column);
     };
 
-    matrix<float, 3, 3> operator+(const matrix<float, 3, 3>& lhs, const matrix<float, 3, 3>& rhs);
-    
-    matrix<float, 3, 3> operator-(const matrix<float, 3, 3>& lhs, const matrix<float, 3, 3>& rhs);
-    
-    matrix<float, 3, 3> operator*(const matrix<float, 3, 3>& lhs, const matrix<float, 3, 3>& rhs);
-    
-    matrix<float, 3, 3> operator*(const matrix<float, 3, 3>& lhs, const float rhs);
-    
-    matrix<float, 3, 3> operator*(const float lhs, const matrix<float, 3, 3>& rhs);
-    
-    vector<float, 3> operator*(const vector<float, 3>& lhs, const matrix<float, 3, 3>& rhs);
+    matrix<float, 3, 3> operator+(const matrix<float, 3, 3> & lhs, const matrix<float, 3, 3> & rhs);
+
+    matrix<float, 3, 3> operator-(const matrix<float, 3, 3> & lhs, const matrix<float, 3, 3> & rhs);
+
+    matrix<float, 3, 3> operator*(const matrix<float, 3, 3> & lhs, const matrix<float, 3, 3> & rhs);
+
+    matrix<float, 3, 3> operator*(const matrix<float, 3, 3> & lhs, const float rhs);
+
+    matrix<float, 3, 3> operator*(const float lhs, const matrix<float, 3, 3> & rhs);
+
+    vector<float, 3> operator*(const vector<float, 3> & lhs, const matrix<float, 3, 3> & rhs);
 
     MATH_INLINE matrix<float, 3, 3> matrix<float, 3, 3>::create_euler(const float pitch, const float yaw, const float roll)
     {
@@ -2705,7 +2720,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE matrix<float, 3, 3> matrix<float, 3, 3>::orientation_lh(const vector<float, 3>& direction, const vector<float, 3>& up)
+    MATH_INLINE matrix<float, 3, 3> matrix<float, 3, 3>::orientation_lh(const vector<float, 3> & direction, const vector<float, 3> & up)
     {
         vector<float, 3> f = normalize(direction);
         vector<float, 3> s = normalize(cross(up, f));
@@ -2719,13 +2734,13 @@ namespace lina
         };
     }
 
-    MATH_INLINE matrix<float, 3, 3> matrix<float, 3, 3>::orientation_rh(const vector<float, 3>& direction, const vector<float, 3>& up)
+    MATH_INLINE matrix<float, 3, 3> matrix<float, 3, 3>::orientation_rh(const vector<float, 3> & direction, const vector<float, 3> & up)
     {
         return orientation_lh(-direction, up);
     }
 
 
-    MATH_INLINE matrix<float, 3, 3> matrix<float, 3, 3>::scale(const vector<float, 3>& s)
+    MATH_INLINE matrix<float, 3, 3> matrix<float, 3, 3>::scale(const vector<float, 3> & s)
     {
         return
         {
@@ -2735,7 +2750,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE matrix<float, 3, 3> matrix<float, 3, 3>::rotate(const float radians, const vector<float, 3>& a)
+    MATH_INLINE matrix<float, 3, 3> matrix<float, 3, 3>::rotate(const float radians, const vector<float, 3> & a)
     {
         float s = sinf(radians);
         float c = cosf(radians);
@@ -2795,19 +2810,19 @@ namespace lina
 
     }
 
-    MATH_INLINE matrix<float, 3, 3>::matrix(const vector<float, 3>& u, const vector<float, 3>& v, const vector<float, 3>& w)
+    MATH_INLINE matrix<float, 3, 3>::matrix(const vector<float, 3> & u, const vector<float, 3> & v, const vector<float, 3> & w)
         : matrix<float, 3, 3>(u.x, u.y, u.z, v.x, v.y, v.z, w.x, w.y, w.z)
     {
 
     };
-    
-    MATH_INLINE matrix<float, 3, 3>::matrix(const matrix<float, 3, 3>& other) 
+
+    MATH_INLINE matrix<float, 3, 3>::matrix(const matrix<float, 3, 3> & other)
         : matrix<float, 3, 3>(other.u.x, other.u.y, other.u.z, other.v.x, other.v.y, other.v.z, other.w.x, other.w.y, other.w.z)
     {
 
     }
 
-    MATH_INLINE matrix<float, 3, 3>::matrix(const float* o) 
+    MATH_INLINE matrix<float, 3, 3>::matrix(const float* o)
         : matrix<float, 3, 3>(o[0], o[1], o[2], o[3], o[4], o[5], o[6], o[7], o[8])
     {
 
@@ -2837,7 +2852,7 @@ namespace lina
     {
         matrix<float, 3, 3> out;
 
-        float det = 
+        float det =
             (((p_data[1] * p_data[5]) - (p_data[2] * p_data[4])) * p_data[6]) +
             (((p_data[2] * p_data[3]) - (p_data[0] * p_data[5])) * p_data[7]) +
             (((p_data[0] * p_data[4]) - (p_data[1] * p_data[3])) * p_data[8]);
@@ -2908,7 +2923,7 @@ namespace lina
         return out;
     }
 
-    MATH_INLINE matrix<float, 3, 3>& matrix<float, 3, 3>::operator+=(const matrix<float, 3, 3>& rhs)
+    MATH_INLINE matrix<float, 3, 3>& matrix<float, 3, 3>::operator+=(const matrix<float, 3, 3> & rhs)
     {
         u += rhs.u;
         v += rhs.v;
@@ -2916,7 +2931,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE matrix<float, 3, 3>& matrix<float, 3, 3>::operator-=(const matrix<float, 3, 3>& rhs)
+    MATH_INLINE matrix<float, 3, 3>& matrix<float, 3, 3>::operator-=(const matrix<float, 3, 3> & rhs)
     {
         u -= rhs.u;
         v -= rhs.v;
@@ -2932,7 +2947,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE matrix<float, 3, 3>& matrix<float, 3, 3>::operator=(const matrix<float, 3, 3>& rhs)
+    MATH_INLINE matrix<float, 3, 3>& matrix<float, 3, 3>::operator=(const matrix<float, 3, 3> & rhs)
     {
         u = rhs.u;
         v = rhs.v;
@@ -2960,7 +2975,7 @@ namespace lina
         return p_rows[row].p_cols[column];
     }
 
-    MATH_INLINE matrix<float, 3, 3> operator+(const matrix<float, 3, 3>& lhs, const matrix<float, 3, 3>& rhs)
+    MATH_INLINE matrix<float, 3, 3> operator+(const matrix<float, 3, 3> & lhs, const matrix<float, 3, 3> & rhs)
     {
         return
         {
@@ -2970,7 +2985,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE matrix<float, 3, 3> operator-(const matrix<float, 3, 3>& lhs, const matrix<float, 3, 3>& rhs)
+    MATH_INLINE matrix<float, 3, 3> operator-(const matrix<float, 3, 3> & lhs, const matrix<float, 3, 3> & rhs)
     {
         return
         {
@@ -2980,7 +2995,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE matrix<float, 3, 3> operator*(const matrix<float, 3, 3>& lhs, const matrix<float, 3, 3>& rhs)
+    MATH_INLINE matrix<float, 3, 3> operator*(const matrix<float, 3, 3> & lhs, const matrix<float, 3, 3> & rhs)
     {
         return
         {
@@ -2996,7 +3011,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 3> operator*(const vector<float, 3>& lhs, const matrix<float, 3, 3>& rhs)
+    MATH_INLINE vector<float, 3> operator*(const vector<float, 3> & lhs, const matrix<float, 3, 3> & rhs)
     {
         return
         {
@@ -3007,12 +3022,12 @@ namespace lina
         };
     }
 
-    MATH_INLINE matrix<float, 3, 3> operator*(const float lhs, const matrix<float, 3, 3>& rhs)
+    MATH_INLINE matrix<float, 3, 3> operator*(const float lhs, const matrix<float, 3, 3> & rhs)
     {
         return rhs * lhs;
     }
 
-    MATH_INLINE matrix<float, 3, 3> operator*(const matrix<float, 3, 3>& lhs, const float rhs)
+    MATH_INLINE matrix<float, 3, 3> operator*(const matrix<float, 3, 3> & lhs, const float rhs)
     {
         return
         {
@@ -3058,11 +3073,11 @@ namespace lina
         static matrix<float, 4, 3> scale(const vector<float, 3>& s);
 
         static matrix<float, 4, 3> rotate(const float angle, const vector<float, 3>& a);
-        
+
         static matrix<float, 4, 3> rotate_x(const float angle);
-        
+
         static matrix<float, 4, 3> rotate_y(const float angle);
-        
+
         static matrix<float, 4, 3> rotate_z(const float angle);
 
         static matrix<float, 4, 3> translate(const vector<float, 3>& t);
@@ -3070,57 +3085,57 @@ namespace lina
         static matrix<float, 4, 3> identity();
 
         matrix(const float u1, const float u2, const float u3,
-               const float v1, const float v2, const float v3,
-               const float w1, const float w2, const float w3,
-               const float t1, const float t2, const float t3);
-        
-        matrix(const vector<float, 3>& u, 
-               const vector<float, 3>& v, 
-               const vector<float, 3>& w, 
-               const vector<float, 3>& t);
+            const float v1, const float v2, const float v3,
+            const float w1, const float w2, const float w3,
+            const float t1, const float t2, const float t3);
+
+        matrix(const vector<float, 3>& u,
+            const vector<float, 3>& v,
+            const vector<float, 3>& w,
+            const vector<float, 3>& t);
 
         matrix(const matrix<float, 4, 3>& other);
-        
+
         matrix(const float* o);
-        
+
         matrix() = default;
 
         matrix<float, 4, 3> transpose() const;
-        
+
         matrix<float, 4, 3> inverse() const;
-        
+
         float determinant()	const;
 
         vector<float, 3> euler() const;
 
         matrix<float, 4, 3> operator+=(const matrix<float, 4, 3>& rhs);
-        
+
         matrix<float, 4, 3> operator-=(const matrix<float, 4, 3>& rhs);
-        
+
         matrix<float, 4, 3> operator*=(const float rhs);
 
         matrix<float, 4, 3>& operator=(const matrix<float, 4, 3>& rhs);
-        
+
         matrix<float, 4, 3> operator-() const;
 
         vector<float, 3>& operator[](const unsigned int index);
 
         vector<float, 3> operator[](const unsigned int index) const;
-        
+
         float operator()(const unsigned int row, const unsigned int column);
     };
 
-    matrix<float, 4, 3> operator+(const matrix<float, 4, 3>& lhs, const matrix<float, 4, 3>& rhs);
-    
-    matrix<float, 4, 3> operator-(const matrix<float, 4, 3>& lhs, const matrix<float, 4, 3>& rhs);
-    
-    matrix<float, 4, 3> operator*(const matrix<float, 4, 3>& lhs, const matrix<float, 4, 3>& rhs);
-    
-    matrix<float, 4, 3> operator*(const matrix<float, 4, 3>& lhs, const float rhs);
-    
-    matrix<float, 4, 3> operator*(const float lhs, const matrix<float, 4, 3>& rhs);
-    
-    vector<float, 3> operator*(const vector<float, 3>& lhs, const matrix<float, 4, 3>& rhs);
+    matrix<float, 4, 3> operator+(const matrix<float, 4, 3> & lhs, const matrix<float, 4, 3> & rhs);
+
+    matrix<float, 4, 3> operator-(const matrix<float, 4, 3> & lhs, const matrix<float, 4, 3> & rhs);
+
+    matrix<float, 4, 3> operator*(const matrix<float, 4, 3> & lhs, const matrix<float, 4, 3> & rhs);
+
+    matrix<float, 4, 3> operator*(const matrix<float, 4, 3> & lhs, const float rhs);
+
+    matrix<float, 4, 3> operator*(const float lhs, const matrix<float, 4, 3> & rhs);
+
+    vector<float, 3> operator*(const vector<float, 3> & lhs, const matrix<float, 4, 3> & rhs);
 
     MATH_INLINE matrix<float, 4, 3> matrix<float, 4, 3>::create_euler(const float pitch, const float yaw, const float roll)
     {
@@ -3136,7 +3151,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE matrix<float, 4, 3> matrix<float, 4, 3>::orientation_lh(const vector<float, 3>& direction, const vector<float, 3>& position, const vector<float, 3>& up)
+    MATH_INLINE matrix<float, 4, 3> matrix<float, 4, 3>::orientation_lh(const vector<float, 3> & direction, const vector<float, 3> & position, const vector<float, 3> & up)
     {
         vector<float, 3> f = normalize(direction);
         vector<float, 3> s = normalize(cross(up, f));
@@ -3151,12 +3166,12 @@ namespace lina
         };
     }
 
-    MATH_INLINE matrix<float, 4, 3> matrix<float, 4, 3>::orientation_rh(const vector<float, 3>& direction, const vector<float, 3>& position, const vector<float, 3>& up)
+    MATH_INLINE matrix<float, 4, 3> matrix<float, 4, 3>::orientation_rh(const vector<float, 3> & direction, const vector<float, 3> & position, const vector<float, 3> & up)
     {
         return orientation_lh(-direction, position, up);
     }
 
-    MATH_INLINE matrix<float, 4, 3> matrix<float, 4, 3>::scale(const vector<float, 3>& s)
+    MATH_INLINE matrix<float, 4, 3> matrix<float, 4, 3>::scale(const vector<float, 3> & s)
     {
         return
         {
@@ -3167,7 +3182,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE matrix<float, 4, 3> matrix<float, 4, 3>::rotate(const float angle, const vector<float, 3>& a)
+    MATH_INLINE matrix<float, 4, 3> matrix<float, 4, 3>::rotate(const float angle, const vector<float, 3> & a)
     {
         float s = sin(angle);
         float c = cos(angle);
@@ -3221,7 +3236,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE matrix<float, 4, 3> matrix<float, 4, 3>::translate(const vector<float, 3>& t)
+    MATH_INLINE matrix<float, 4, 3> matrix<float, 4, 3>::translate(const vector<float, 3> & t)
     {
         return
         {
@@ -3256,7 +3271,7 @@ namespace lina
 
     }
 
-    MATH_INLINE matrix<float, 4, 3>::matrix(const vector<float, 3>& u, const vector<float, 3>& v, const vector<float, 3>& w, const vector<float, 3>& t) 
+    MATH_INLINE matrix<float, 4, 3>::matrix(const vector<float, 3> & u, const vector<float, 3> & v, const vector<float, 3> & w, const vector<float, 3> & t)
         : matrix<float, 4, 3>(
             u.x, u.y, u.z,
             v.x, v.y, v.z,
@@ -3266,7 +3281,7 @@ namespace lina
 
     };
 
-    MATH_INLINE matrix<float, 4, 3>::matrix(const matrix<float, 4, 3>& other) 
+    MATH_INLINE matrix<float, 4, 3>::matrix(const matrix<float, 4, 3> & other)
         : matrix<float, 4, 3>(
             other.u.x, other.u.y, other.u.z,
             other.v.x, other.v.y, other.v.z,
@@ -3282,7 +3297,7 @@ namespace lina
             o[3], o[4], o[5],
             o[6], o[7], o[8],
             o[9], o[10], o[11]
-        )
+            )
     {
 
     }
@@ -3380,7 +3395,7 @@ namespace lina
         return out;
     }
 
-    MATH_INLINE matrix<float, 4, 3> matrix<float, 4, 3>::operator+=(const matrix<float, 4, 3>& rhs)
+    MATH_INLINE matrix<float, 4, 3> matrix<float, 4, 3>::operator+=(const matrix<float, 4, 3> & rhs)
     {
         u += rhs.u;
         v += rhs.v;
@@ -3389,7 +3404,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE matrix<float, 4, 3> matrix<float, 4, 3>::operator-=(const matrix<float, 4, 3>& rhs)
+    MATH_INLINE matrix<float, 4, 3> matrix<float, 4, 3>::operator-=(const matrix<float, 4, 3> & rhs)
     {
         u -= rhs.u;
         v -= rhs.v;
@@ -3407,7 +3422,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE matrix<float, 4, 3>& matrix<float, 4, 3>::operator=(const matrix<float, 4, 3>& rhs)
+    MATH_INLINE matrix<float, 4, 3>& matrix<float, 4, 3>::operator=(const matrix<float, 4, 3> & rhs)
     {
         u = rhs.u;
         v = rhs.v;
@@ -3436,68 +3451,68 @@ namespace lina
         return p_rows[row].p_cols[column];
     }
 
-    MATH_INLINE matrix<float, 4, 3> operator+(const matrix<float, 4, 3>& lhs, const matrix<float, 4, 3>& rhs)
+    MATH_INLINE matrix<float, 4, 3> operator+(const matrix<float, 4, 3> & lhs, const matrix<float, 4, 3> & rhs)
     {
         return
         {
-            lhs.p_data[0] + rhs.p_data[0], lhs.p_data[ 1] + rhs.p_data[ 1], lhs.p_data[ 2] + rhs.p_data[ 2],
-            lhs.p_data[3] + rhs.p_data[3], lhs.p_data[ 4] + rhs.p_data[ 4], lhs.p_data[ 5] + rhs.p_data[ 5],
-            lhs.p_data[6] + rhs.p_data[6], lhs.p_data[ 7] + rhs.p_data[ 7], lhs.p_data[ 8] + rhs.p_data[ 8],
+            lhs.p_data[0] + rhs.p_data[0], lhs.p_data[1] + rhs.p_data[1], lhs.p_data[2] + rhs.p_data[2],
+            lhs.p_data[3] + rhs.p_data[3], lhs.p_data[4] + rhs.p_data[4], lhs.p_data[5] + rhs.p_data[5],
+            lhs.p_data[6] + rhs.p_data[6], lhs.p_data[7] + rhs.p_data[7], lhs.p_data[8] + rhs.p_data[8],
             lhs.p_data[9] + rhs.p_data[9], lhs.p_data[10] + rhs.p_data[10], lhs.p_data[11] + rhs.p_data[11]
         };
     }
 
-    MATH_INLINE matrix<float, 4, 3> operator-(const matrix<float, 4, 3>& lhs, const matrix<float, 4, 3>& rhs)
+    MATH_INLINE matrix<float, 4, 3> operator-(const matrix<float, 4, 3> & lhs, const matrix<float, 4, 3> & rhs)
     {
         return
         {
-            lhs.p_data[0] - rhs.p_data[0], lhs.p_data[ 1] - rhs.p_data[ 1], lhs.p_data[ 2] - rhs.p_data[ 2],
-            lhs.p_data[3] - rhs.p_data[3], lhs.p_data[ 4] - rhs.p_data[ 4], lhs.p_data[ 5] - rhs.p_data[ 5],
-            lhs.p_data[6] - rhs.p_data[6], lhs.p_data[ 7] - rhs.p_data[ 7], lhs.p_data[ 8] - rhs.p_data[ 8],
+            lhs.p_data[0] - rhs.p_data[0], lhs.p_data[1] - rhs.p_data[1], lhs.p_data[2] - rhs.p_data[2],
+            lhs.p_data[3] - rhs.p_data[3], lhs.p_data[4] - rhs.p_data[4], lhs.p_data[5] - rhs.p_data[5],
+            lhs.p_data[6] - rhs.p_data[6], lhs.p_data[7] - rhs.p_data[7], lhs.p_data[8] - rhs.p_data[8],
             lhs.p_data[9] - rhs.p_data[9], lhs.p_data[10] - rhs.p_data[10], lhs.p_data[11] - rhs.p_data[11]
         };
     }
 
-    MATH_INLINE matrix<float, 4, 3> operator*(const matrix<float, 4, 3>& lhs, const matrix<float, 4, 3>& rhs)
+    MATH_INLINE matrix<float, 4, 3> operator*(const matrix<float, 4, 3> & lhs, const matrix<float, 4, 3> & rhs)
     {
         return
         {
-            (lhs.p_data[0] * rhs.p_data[0]) + (lhs.p_data[ 1] * rhs.p_data[3]) + (lhs.p_data[ 2] * rhs.p_data[6]),
-            (lhs.p_data[0] * rhs.p_data[1]) + (lhs.p_data[ 1] * rhs.p_data[4]) + (lhs.p_data[ 2] * rhs.p_data[7]),
-            (lhs.p_data[0] * rhs.p_data[2]) + (lhs.p_data[ 1] * rhs.p_data[5]) + (lhs.p_data[ 2] * rhs.p_data[8]),
-            (lhs.p_data[3] * rhs.p_data[0]) + (lhs.p_data[ 4] * rhs.p_data[3]) + (lhs.p_data[ 5] * rhs.p_data[6]),
-            (lhs.p_data[3] * rhs.p_data[1]) + (lhs.p_data[ 4] * rhs.p_data[4]) + (lhs.p_data[ 5] * rhs.p_data[7]),
-            (lhs.p_data[3] * rhs.p_data[2]) + (lhs.p_data[ 4] * rhs.p_data[5]) + (lhs.p_data[ 5] * rhs.p_data[8]),
-            (lhs.p_data[6] * rhs.p_data[0]) + (lhs.p_data[ 7] * rhs.p_data[3]) + (lhs.p_data[ 8] * rhs.p_data[6]),
-            (lhs.p_data[6] * rhs.p_data[1]) + (lhs.p_data[ 7] * rhs.p_data[4]) + (lhs.p_data[ 8] * rhs.p_data[7]),
-            (lhs.p_data[6] * rhs.p_data[2]) + (lhs.p_data[ 7] * rhs.p_data[5]) + (lhs.p_data[ 8] * rhs.p_data[8]),
-            (lhs.p_data[9] * rhs.p_data[0]) + (lhs.p_data[10] * rhs.p_data[3]) + (lhs.p_data[11] * rhs.p_data[6]) + rhs.p_data[ 9],
+            (lhs.p_data[0] * rhs.p_data[0]) + (lhs.p_data[1] * rhs.p_data[3]) + (lhs.p_data[2] * rhs.p_data[6]),
+            (lhs.p_data[0] * rhs.p_data[1]) + (lhs.p_data[1] * rhs.p_data[4]) + (lhs.p_data[2] * rhs.p_data[7]),
+            (lhs.p_data[0] * rhs.p_data[2]) + (lhs.p_data[1] * rhs.p_data[5]) + (lhs.p_data[2] * rhs.p_data[8]),
+            (lhs.p_data[3] * rhs.p_data[0]) + (lhs.p_data[4] * rhs.p_data[3]) + (lhs.p_data[5] * rhs.p_data[6]),
+            (lhs.p_data[3] * rhs.p_data[1]) + (lhs.p_data[4] * rhs.p_data[4]) + (lhs.p_data[5] * rhs.p_data[7]),
+            (lhs.p_data[3] * rhs.p_data[2]) + (lhs.p_data[4] * rhs.p_data[5]) + (lhs.p_data[5] * rhs.p_data[8]),
+            (lhs.p_data[6] * rhs.p_data[0]) + (lhs.p_data[7] * rhs.p_data[3]) + (lhs.p_data[8] * rhs.p_data[6]),
+            (lhs.p_data[6] * rhs.p_data[1]) + (lhs.p_data[7] * rhs.p_data[4]) + (lhs.p_data[8] * rhs.p_data[7]),
+            (lhs.p_data[6] * rhs.p_data[2]) + (lhs.p_data[7] * rhs.p_data[5]) + (lhs.p_data[8] * rhs.p_data[8]),
+            (lhs.p_data[9] * rhs.p_data[0]) + (lhs.p_data[10] * rhs.p_data[3]) + (lhs.p_data[11] * rhs.p_data[6]) + rhs.p_data[9],
             (lhs.p_data[9] * rhs.p_data[1]) + (lhs.p_data[10] * rhs.p_data[4]) + (lhs.p_data[11] * rhs.p_data[7]) + rhs.p_data[10],
             (lhs.p_data[9] * rhs.p_data[2]) + (lhs.p_data[10] * rhs.p_data[5]) + (lhs.p_data[11] * rhs.p_data[8]) + rhs.p_data[11]
         };
     }
 
-    MATH_INLINE matrix<float, 4, 3> operator*(const float lhs, const matrix<float, 4, 3>& rhs)
+    MATH_INLINE matrix<float, 4, 3> operator*(const float lhs, const matrix<float, 4, 3> & rhs)
     {
         return rhs * lhs;
     }
 
-    MATH_INLINE matrix<float, 4, 3> operator*(const matrix<float, 4, 3>& lhs, const float rhs)
+    MATH_INLINE matrix<float, 4, 3> operator*(const matrix<float, 4, 3> & lhs, const float rhs)
     {
         return
         {
-            lhs.p_data[0] * rhs, lhs.p_data[ 1] * rhs, lhs.p_data[ 2] * rhs,
-            lhs.p_data[3] * rhs, lhs.p_data[ 4] * rhs, lhs.p_data[ 5] * rhs,
-            lhs.p_data[6] * rhs, lhs.p_data[ 7] * rhs, lhs.p_data[ 8] * rhs,
+            lhs.p_data[0] * rhs, lhs.p_data[1] * rhs, lhs.p_data[2] * rhs,
+            lhs.p_data[3] * rhs, lhs.p_data[4] * rhs, lhs.p_data[5] * rhs,
+            lhs.p_data[6] * rhs, lhs.p_data[7] * rhs, lhs.p_data[8] * rhs,
             lhs.p_data[9] * rhs, lhs.p_data[10] * rhs, lhs.p_data[11] * rhs
         };
     }
 
-    MATH_INLINE vector<float, 3> operator*(const vector<float, 3>& lhs, const matrix<float, 4, 3>& rhs)
+    MATH_INLINE vector<float, 3> operator*(const vector<float, 3> & lhs, const matrix<float, 4, 3> & rhs)
     {
         return
         {
-            (lhs.p_cols[0] * rhs.p_data[0]) + (lhs.p_cols[1] * rhs.p_data[3]) + (lhs.p_cols[2] * rhs.p_data[6]) + rhs.p_data[ 9],
+            (lhs.p_cols[0] * rhs.p_data[0]) + (lhs.p_cols[1] * rhs.p_data[3]) + (lhs.p_cols[2] * rhs.p_data[6]) + rhs.p_data[9],
             (lhs.p_cols[0] * rhs.p_data[1]) + (lhs.p_cols[1] * rhs.p_data[4]) + (lhs.p_cols[2] * rhs.p_data[7]) + rhs.p_data[10],
             (lhs.p_cols[0] * rhs.p_data[2]) + (lhs.p_cols[1] * rhs.p_data[5]) + (lhs.p_cols[2] * rhs.p_data[8]) + rhs.p_data[11]
         };
@@ -3537,37 +3552,37 @@ namespace lina
         static matrix<float, 4, 4> orientation_rh(const vector<float, 3>& direction, const vector<float, 3>& position, const vector<float, 3>& up);
 
         static matrix<float, 4, 4> orthographic_rh(const float left, const float right, const float bottom, const float top, const float zNear, const float zFar);
-        
+
         static matrix<float, 4, 4> perspective_rh(const float fovy, const float aspectRatio, const float zNear, const float zFar);
-        
+
         static matrix<float, 4, 4> orthographic_lh(const float left, const float right, const float bottom, const float top, const float zNear, const float zFar);
-        
+
         static matrix<float, 4, 4> perspective_lh(const float fovy, const float aspectRatio, const float zNear, const float zFar);
-        
+
         static matrix<float, 4, 4> normalized_orthographic_rh(const float left, const float right, const float bottom, const float top, const float zNear, const float zFar);
-        
+
         static matrix<float, 4, 4> normalized_perspective_rh(const float fovy, const float aspectRatio, const float zNear, const float zFar);
-        
+
         static matrix<float, 4, 4> normalized_orthographic_lh(const float left, const float right, const float bottom, const float top, const float zNear, const float zFar);
-        
+
         static matrix<float, 4, 4> normalized_perspective_lh(const float fovy, const float aspectRatio, const float zNear, const float zFar);
-        
+
         static matrix<float, 4, 4> look_to_rh(const vector<float, 3>& direction, const vector<float, 3>& position, const vector<float, 3>& up);
-        
+
         static matrix<float, 4, 4> look_at_rh(const vector<float, 3>& target, const vector<float, 3>& position, const vector<float, 3>& up);
 
         static matrix<float, 4, 4> look_to_lh(const vector<float, 3>& direction, const vector<float, 3>& position, const vector<float, 3>& up);
-        
+
         static matrix<float, 4, 4> look_at_lh(const vector<float, 3>& target, const vector<float, 3>& position, const vector<float, 3>& up);
 
         static matrix<float, 4, 4> scale(const vector<float, 3>& s);
 
         static matrix<float, 4, 4> rotate(const float angle, const vector<float, 3>& a);
-        
+
         static matrix<float, 4, 4> rotate_x(const float angle);
-        
+
         static matrix<float, 4, 4> rotate_y(const float angle);
-        
+
         static matrix<float, 4, 4> rotate_z(const float angle);
 
         static matrix<float, 4, 4> translate(const vector<float, 3>& t);
@@ -3575,54 +3590,54 @@ namespace lina
         static matrix<float, 4, 4> identity();
 
         matrix(const float u1, const float u2, const float u3, const float u4,
-               const float v1, const float v2, const float v3, const float v4,
-               const float w1, const float w2, const float w3, const float w4,
-               const float t1, const float t2, const float t3, const float t4);
+            const float v1, const float v2, const float v3, const float v4,
+            const float w1, const float w2, const float w3, const float w4,
+            const float t1, const float t2, const float t3, const float t4);
 
         matrix(const vector<float, 4>& u, const vector<float, 4>& v, const vector<float, 4>& w, const vector<float, 4>& t);
-        
+
         matrix(const matrix<float, 4, 4>& other);
-        
+
         matrix(const float* o);
-        
+
         matrix() = default;
 
         matrix<float, 4, 4> transpose() const;
-        
+
         matrix<float, 4, 4> inverse() const;
-        
+
         float determinant()	const;
 
         vector<float, 3> euler() const;
 
         matrix<float, 4, 4> operator+=(const matrix<float, 4, 4>& rhs);
-        
+
         matrix<float, 4, 4> operator-=(const matrix<float, 4, 4>& rhs);
-        
+
         matrix<float, 4, 4> operator*=(const float rhs);
 
         matrix<float, 4, 4>& operator=(const matrix<float, 4, 4>& rhs);
-        
+
         matrix<float, 4, 4> operator-() const;
 
         vector<float, 4>& operator[](const unsigned int index);
 
         vector<float, 4> operator[](const unsigned int index) const;
-        
+
         float operator()(const unsigned int row, const unsigned int column);
     };
 
-    matrix<float, 4, 4> operator+(const matrix<float, 4, 4>& lhs, const matrix<float, 4, 4>& rhs);
-    
-    matrix<float, 4, 4> operator-(const matrix<float, 4, 4>& lhs, const matrix<float, 4, 4>& rhs);
-    
-    matrix<float, 4, 4> operator*(const matrix<float, 4, 4>& lhs, const matrix<float, 4, 4>& rhs);
-    
-    matrix<float, 4, 4> operator*(const matrix<float, 4, 4>& lhs, const float rhs);
-    
-    matrix<float, 4, 4> operator*(const float lhs, const matrix<float, 4, 4>& rhs);
-    
-    vector<float, 4> operator*(const vector<float, 4>& lhs, const matrix<float, 4, 4>& rhs);
+    matrix<float, 4, 4> operator+(const matrix<float, 4, 4> & lhs, const matrix<float, 4, 4> & rhs);
+
+    matrix<float, 4, 4> operator-(const matrix<float, 4, 4> & lhs, const matrix<float, 4, 4> & rhs);
+
+    matrix<float, 4, 4> operator*(const matrix<float, 4, 4> & lhs, const matrix<float, 4, 4> & rhs);
+
+    matrix<float, 4, 4> operator*(const matrix<float, 4, 4> & lhs, const float rhs);
+
+    matrix<float, 4, 4> operator*(const float lhs, const matrix<float, 4, 4> & rhs);
+
+    vector<float, 4> operator*(const vector<float, 4> & lhs, const matrix<float, 4, 4> & rhs);
 
     MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::create_euler(const float pitch, const float yaw, const float roll)
     {
@@ -3638,12 +3653,12 @@ namespace lina
         };
     }
 
-    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::orientation_lh(const vector<float, 3>& direction, const vector<float, 3>& position, const vector<float, 3>& up)
+    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::orientation_lh(const vector<float, 3> & direction, const vector<float, 3> & position, const vector<float, 3> & up)
     {
         vector<float, 3> f = normalize(direction);
         vector<float, 3> s = normalize(cross(up, f));
         vector<float, 3> u = cross(f, s);
-        
+
         return
         {
             s.x, s.y, s.z, 0.0f,
@@ -3653,7 +3668,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::orientation_rh(const vector<float, 3>& direction, const vector<float, 3>& position, const vector<float, 3>& up)
+    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::orientation_rh(const vector<float, 3> & direction, const vector<float, 3> & position, const vector<float, 3> & up)
     {
         return orientation_lh(-direction, position, up);
     }
@@ -3680,7 +3695,7 @@ namespace lina
         float zoomY = 1.0f / tanHalfFovy;
         float zoomX = 1.0f / (aspectRatio * tanHalfFovy);
 
-        return 
+        return
         {
             zoomX, 0.0f, 0.0f, 0.0f,
             0.0f, zoomY, 0.0f, 0.0f,
@@ -3780,12 +3795,12 @@ namespace lina
         };
     }
 
-    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::look_to_rh(const vector<float, 3>& direction, const vector<float, 3>& position, const vector<float, 3>& up)
+    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::look_to_rh(const vector<float, 3> & direction, const vector<float, 3> & position, const vector<float, 3> & up)
     {
         return matrix<float, 4, 4>::look_at_rh(position + direction, position, up);
     }
 
-    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::look_at_rh(const vector<float, 3>& target, const vector<float, 3>& position, const vector<float, 3>& up)
+    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::look_at_rh(const vector<float, 3> & target, const vector<float, 3> & position, const vector<float, 3> & up)
     {
         vector<float, 3> f = normalize(position - target);
         vector<float, 3> s = normalize(cross(up, f));
@@ -3800,12 +3815,12 @@ namespace lina
         };
     }
 
-    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::look_to_lh(const vector<float, 3>& direction, const vector<float, 3>& position, const vector<float, 3>& up)
+    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::look_to_lh(const vector<float, 3> & direction, const vector<float, 3> & position, const vector<float, 3> & up)
     {
         return matrix<float, 4, 4>::look_at_lh(position + direction, position, up);
     }
 
-    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::look_at_lh(const vector<float, 3>& target, const vector<float, 3>& position, const vector<float, 3>& up)
+    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::look_at_lh(const vector<float, 3> & target, const vector<float, 3> & position, const vector<float, 3> & up)
     {
         vector<float, 3> f = normalize(target - position);
         vector<float, 3> s = normalize(cross(up, f));
@@ -3820,7 +3835,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::scale(const vector<float, 3>& s)
+    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::scale(const vector<float, 3> & s)
     {
         return
         {
@@ -3831,7 +3846,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::rotate(const float angle, const vector<float, 3>& a)
+    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::rotate(const float angle, const vector<float, 3> & a)
     {
         float s = sin(angle);
         float c = cos(angle);
@@ -3884,7 +3899,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::translate(const vector<float, 3>& t)
+    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::translate(const vector<float, 3> & t)
     {
         return
         {
@@ -3906,7 +3921,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE matrix<float, 4, 4>::matrix(const vector<float, 4>& u, const vector<float, 4>& v, const vector<float, 4>& w, const vector<float, 4>& t) 
+    MATH_INLINE matrix<float, 4, 4>::matrix(const vector<float, 4> & u, const vector<float, 4> & v, const vector<float, 4> & w, const vector<float, 4> & t)
         : u(u)
         , v(v)
         , w(w)
@@ -3919,7 +3934,7 @@ namespace lina
         const float u1, const float u2, const float u3, const float u4,
         const float v1, const float v2, const float v3, const float v4,
         const float w1, const float w2, const float w3, const float w4,
-        const float t1, const float t2, const float t3, const float t4) 
+        const float t1, const float t2, const float t3, const float t4)
         : m00(u1), m01(u2), m02(u3), m03(u4)
         , m10(v1), m11(v2), m12(v3), m13(v4)
         , m20(w1), m21(w2), m22(w3), m23(w4)
@@ -3929,22 +3944,22 @@ namespace lina
 
     };
 
-    MATH_INLINE matrix<float, 4, 4>::matrix(const matrix<float, 4, 4>& other) :
+    MATH_INLINE matrix<float, 4, 4>::matrix(const matrix<float, 4, 4> & other) :
         matrix<float, 4, 4>(
             other.u.x, other.u.y, other.u.z, other.u.w,
             other.v.x, other.v.y, other.v.z, other.v.w,
             other.w.x, other.w.y, other.w.z, other.w.w,
             other.t.x, other.t.y, other.t.z, other.t.w
-        )
+            )
     {
 
     }
 
     MATH_INLINE matrix<float, 4, 4>::matrix(const float* o) :
         matrix<float, 4, 4>(
-            o[ 0], o[ 1], o[ 2], o[ 3],
-            o[ 4], o[ 5], o[ 6], o[ 7],
-            o[ 8], o[ 9], o[10], o[11],
+            o[0], o[1], o[2], o[3],
+            o[4], o[5], o[6], o[7],
+            o[8], o[9], o[10], o[11],
             o[12], o[13], o[14], o[15]
             )
     {
@@ -3990,16 +4005,16 @@ namespace lina
 
         float inv = 1.0f / det;
 
-        out.p_data[ 0] = c11 * inv;
-        out.p_data[ 1] = c21 * inv;
-        out.p_data[ 2] = c31 * inv;
-        out.p_data[ 3] = c41 * inv;
-        out.p_data[ 4] = c12 * inv;
-        out.p_data[ 5] = c22 * inv;
-        out.p_data[ 6] = c32 * inv;
-        out.p_data[ 7] = c42 * inv;
-        out.p_data[ 8] = c13 * inv;
-        out.p_data[ 9] = c23 * inv;
+        out.p_data[0] = c11 * inv;
+        out.p_data[1] = c21 * inv;
+        out.p_data[2] = c31 * inv;
+        out.p_data[3] = c41 * inv;
+        out.p_data[4] = c12 * inv;
+        out.p_data[5] = c22 * inv;
+        out.p_data[6] = c32 * inv;
+        out.p_data[7] = c42 * inv;
+        out.p_data[8] = c13 * inv;
+        out.p_data[9] = c23 * inv;
         out.p_data[10] = c33 * inv;
         out.p_data[11] = c43 * inv;
         out.p_data[12] = c14 * inv;
@@ -4014,8 +4029,8 @@ namespace lina
     {
         float c11 = +((((p_data[6] * p_data[11]) - (p_data[7] * p_data[10])) * p_data[13]) + (((p_data[7] * p_data[9]) - (p_data[5] * p_data[11])) * p_data[14]) + (((p_data[5] * p_data[10]) - (p_data[6] * p_data[9])) * p_data[15]));
         float c12 = -((((p_data[6] * p_data[11]) - (p_data[7] * p_data[10])) * p_data[12]) + (((p_data[7] * p_data[8]) - (p_data[4] * p_data[11])) * p_data[14]) + (((p_data[4] * p_data[10]) - (p_data[6] * p_data[8])) * p_data[15]));
-        float c13 = +((((p_data[5] * p_data[11]) - (p_data[7] * p_data[ 9])) * p_data[12]) + (((p_data[7] * p_data[8]) - (p_data[4] * p_data[11])) * p_data[13]) + (((p_data[4] * p_data[ 9]) - (p_data[5] * p_data[8])) * p_data[15]));
-        float c14 = -((((p_data[5] * p_data[10]) - (p_data[6] * p_data[ 9])) * p_data[12]) + (((p_data[6] * p_data[8]) - (p_data[4] * p_data[10])) * p_data[13]) + (((p_data[4] * p_data[ 9]) - (p_data[5] * p_data[8])) * p_data[14]));
+        float c13 = +((((p_data[5] * p_data[11]) - (p_data[7] * p_data[9])) * p_data[12]) + (((p_data[7] * p_data[8]) - (p_data[4] * p_data[11])) * p_data[13]) + (((p_data[4] * p_data[9]) - (p_data[5] * p_data[8])) * p_data[15]));
+        float c14 = -((((p_data[5] * p_data[10]) - (p_data[6] * p_data[9])) * p_data[12]) + (((p_data[6] * p_data[8]) - (p_data[4] * p_data[10])) * p_data[13]) + (((p_data[4] * p_data[9]) - (p_data[5] * p_data[8])) * p_data[14]));
 
         return (p_data[0] * c11) + (p_data[1] * c12) + (p_data[2] * c13) + (p_data[3] * c14);
     }
@@ -4050,7 +4065,7 @@ namespace lina
         return out;
     }
 
-    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::operator+=(const matrix<float, 4, 4>& rhs)
+    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::operator+=(const matrix<float, 4, 4> & rhs)
     {
         u += rhs.u;
         v += rhs.v;
@@ -4059,7 +4074,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::operator-=(const matrix<float, 4, 4>& rhs)
+    MATH_INLINE matrix<float, 4, 4> matrix<float, 4, 4>::operator-=(const matrix<float, 4, 4> & rhs)
     {
         u -= rhs.u;
         v -= rhs.v;
@@ -4077,7 +4092,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE matrix<float, 4, 4>& matrix<float, 4, 4>::operator=(const matrix<float, 4, 4>& rhs)
+    MATH_INLINE matrix<float, 4, 4>& matrix<float, 4, 4>::operator=(const matrix<float, 4, 4> & rhs)
     {
         u = rhs.u;
         v = rhs.v;
@@ -4106,73 +4121,73 @@ namespace lina
         return p_rows[row].p_cols[column];
     }
 
-    MATH_INLINE matrix<float, 4, 4> operator+(const matrix<float, 4, 4>& lhs, const matrix<float, 4, 4>& rhs)
+    MATH_INLINE matrix<float, 4, 4> operator+(const matrix<float, 4, 4> & lhs, const matrix<float, 4, 4> & rhs)
     {
         return
         {
-            lhs.p_data[ 0] + rhs.p_data[ 0], lhs.p_data[ 1] + rhs.p_data[ 1], lhs.p_data[ 2] + rhs.p_data[ 2], lhs.p_data[ 3] + rhs.p_data[ 3],
-            lhs.p_data[ 4] + rhs.p_data[ 4], lhs.p_data[ 5] + rhs.p_data[ 5], lhs.p_data[ 6] + rhs.p_data[ 6], lhs.p_data[ 7] + rhs.p_data[ 7],
-            lhs.p_data[ 8] + rhs.p_data[ 8], lhs.p_data[ 9] + rhs.p_data[ 9], lhs.p_data[10] + rhs.p_data[10], lhs.p_data[11] + rhs.p_data[11],
+            lhs.p_data[0] + rhs.p_data[0], lhs.p_data[1] + rhs.p_data[1], lhs.p_data[2] + rhs.p_data[2], lhs.p_data[3] + rhs.p_data[3],
+            lhs.p_data[4] + rhs.p_data[4], lhs.p_data[5] + rhs.p_data[5], lhs.p_data[6] + rhs.p_data[6], lhs.p_data[7] + rhs.p_data[7],
+            lhs.p_data[8] + rhs.p_data[8], lhs.p_data[9] + rhs.p_data[9], lhs.p_data[10] + rhs.p_data[10], lhs.p_data[11] + rhs.p_data[11],
             lhs.p_data[12] + rhs.p_data[12], lhs.p_data[13] + rhs.p_data[13], lhs.p_data[14] + rhs.p_data[14], lhs.p_data[15] + rhs.p_data[15]
         };
     }
 
-    MATH_INLINE matrix<float, 4, 4> operator-(const matrix<float, 4, 4>& lhs, const matrix<float, 4, 4>& rhs)
+    MATH_INLINE matrix<float, 4, 4> operator-(const matrix<float, 4, 4> & lhs, const matrix<float, 4, 4> & rhs)
     {
         return
         {
-            lhs.p_data[ 0] - rhs.p_data[ 0], lhs.p_data[ 1] - rhs.p_data[ 1], lhs.p_data[ 2] - rhs.p_data[ 2], lhs.p_data[ 3] - rhs.p_data[ 3],
-            lhs.p_data[ 4] - rhs.p_data[ 4], lhs.p_data[ 5] - rhs.p_data[ 5], lhs.p_data[ 6] - rhs.p_data[ 6], lhs.p_data[ 7] - rhs.p_data[ 7],
-            lhs.p_data[ 8] - rhs.p_data[ 8], lhs.p_data[ 9] - rhs.p_data[ 9], lhs.p_data[10] - rhs.p_data[10], lhs.p_data[11] - rhs.p_data[11],
+            lhs.p_data[0] - rhs.p_data[0], lhs.p_data[1] - rhs.p_data[1], lhs.p_data[2] - rhs.p_data[2], lhs.p_data[3] - rhs.p_data[3],
+            lhs.p_data[4] - rhs.p_data[4], lhs.p_data[5] - rhs.p_data[5], lhs.p_data[6] - rhs.p_data[6], lhs.p_data[7] - rhs.p_data[7],
+            lhs.p_data[8] - rhs.p_data[8], lhs.p_data[9] - rhs.p_data[9], lhs.p_data[10] - rhs.p_data[10], lhs.p_data[11] - rhs.p_data[11],
             lhs.p_data[12] - rhs.p_data[12], lhs.p_data[13] - rhs.p_data[13], lhs.p_data[14] - rhs.p_data[14], lhs.p_data[15] - rhs.p_data[15]
         };
     }
 
-    MATH_INLINE matrix<float, 4, 4> operator*(const matrix<float, 4, 4>& lhs, const matrix<float, 4, 4>& rhs)
+    MATH_INLINE matrix<float, 4, 4> operator*(const matrix<float, 4, 4> & lhs, const matrix<float, 4, 4> & rhs)
     {
         return
         {
-            (lhs.p_data[ 0] * rhs.p_data[0]) + (lhs.p_data[ 1] * rhs.p_data[4]) + (lhs.p_data[ 2] * rhs.p_data[ 8]) + (lhs.p_data[ 3] * rhs.p_data[12]),
-            (lhs.p_data[ 0] * rhs.p_data[1]) + (lhs.p_data[ 1] * rhs.p_data[5]) + (lhs.p_data[ 2] * rhs.p_data[ 9]) + (lhs.p_data[ 3] * rhs.p_data[13]),
-            (lhs.p_data[ 0] * rhs.p_data[2]) + (lhs.p_data[ 1] * rhs.p_data[6]) + (lhs.p_data[ 2] * rhs.p_data[10]) + (lhs.p_data[ 3] * rhs.p_data[14]),
-            (lhs.p_data[ 0] * rhs.p_data[3]) + (lhs.p_data[ 1] * rhs.p_data[7]) + (lhs.p_data[ 2] * rhs.p_data[11]) + (lhs.p_data[ 3] * rhs.p_data[15]),
-            (lhs.p_data[ 4] * rhs.p_data[0]) + (lhs.p_data[ 5] * rhs.p_data[4]) + (lhs.p_data[ 6] * rhs.p_data[ 8]) + (lhs.p_data[ 7] * rhs.p_data[12]),
-            (lhs.p_data[ 4] * rhs.p_data[1]) + (lhs.p_data[ 5] * rhs.p_data[5]) + (lhs.p_data[ 6] * rhs.p_data[ 9]) + (lhs.p_data[ 7] * rhs.p_data[13]),
-            (lhs.p_data[ 4] * rhs.p_data[2]) + (lhs.p_data[ 5] * rhs.p_data[6]) + (lhs.p_data[ 6] * rhs.p_data[10]) + (lhs.p_data[ 7] * rhs.p_data[14]),
-            (lhs.p_data[ 4] * rhs.p_data[3]) + (lhs.p_data[ 5] * rhs.p_data[7]) + (lhs.p_data[ 6] * rhs.p_data[11]) + (lhs.p_data[ 7] * rhs.p_data[15]),
-            (lhs.p_data[ 8] * rhs.p_data[0]) + (lhs.p_data[ 9] * rhs.p_data[4]) + (lhs.p_data[10] * rhs.p_data[ 8]) + (lhs.p_data[11] * rhs.p_data[12]),
-            (lhs.p_data[ 8] * rhs.p_data[1]) + (lhs.p_data[ 9] * rhs.p_data[5]) + (lhs.p_data[10] * rhs.p_data[ 9]) + (lhs.p_data[11] * rhs.p_data[13]),
-            (lhs.p_data[ 8] * rhs.p_data[2]) + (lhs.p_data[ 9] * rhs.p_data[6]) + (lhs.p_data[10] * rhs.p_data[10]) + (lhs.p_data[11] * rhs.p_data[14]),
-            (lhs.p_data[ 8] * rhs.p_data[3]) + (lhs.p_data[ 9] * rhs.p_data[7]) + (lhs.p_data[10] * rhs.p_data[11]) + (lhs.p_data[11] * rhs.p_data[15]),
-            (lhs.p_data[12] * rhs.p_data[0]) + (lhs.p_data[13] * rhs.p_data[4]) + (lhs.p_data[14] * rhs.p_data[ 8]) + (lhs.p_data[15] * rhs.p_data[12]),
-            (lhs.p_data[12] * rhs.p_data[1]) + (lhs.p_data[13] * rhs.p_data[5]) + (lhs.p_data[14] * rhs.p_data[ 9]) + (lhs.p_data[15] * rhs.p_data[13]),
+            (lhs.p_data[0] * rhs.p_data[0]) + (lhs.p_data[1] * rhs.p_data[4]) + (lhs.p_data[2] * rhs.p_data[8]) + (lhs.p_data[3] * rhs.p_data[12]),
+            (lhs.p_data[0] * rhs.p_data[1]) + (lhs.p_data[1] * rhs.p_data[5]) + (lhs.p_data[2] * rhs.p_data[9]) + (lhs.p_data[3] * rhs.p_data[13]),
+            (lhs.p_data[0] * rhs.p_data[2]) + (lhs.p_data[1] * rhs.p_data[6]) + (lhs.p_data[2] * rhs.p_data[10]) + (lhs.p_data[3] * rhs.p_data[14]),
+            (lhs.p_data[0] * rhs.p_data[3]) + (lhs.p_data[1] * rhs.p_data[7]) + (lhs.p_data[2] * rhs.p_data[11]) + (lhs.p_data[3] * rhs.p_data[15]),
+            (lhs.p_data[4] * rhs.p_data[0]) + (lhs.p_data[5] * rhs.p_data[4]) + (lhs.p_data[6] * rhs.p_data[8]) + (lhs.p_data[7] * rhs.p_data[12]),
+            (lhs.p_data[4] * rhs.p_data[1]) + (lhs.p_data[5] * rhs.p_data[5]) + (lhs.p_data[6] * rhs.p_data[9]) + (lhs.p_data[7] * rhs.p_data[13]),
+            (lhs.p_data[4] * rhs.p_data[2]) + (lhs.p_data[5] * rhs.p_data[6]) + (lhs.p_data[6] * rhs.p_data[10]) + (lhs.p_data[7] * rhs.p_data[14]),
+            (lhs.p_data[4] * rhs.p_data[3]) + (lhs.p_data[5] * rhs.p_data[7]) + (lhs.p_data[6] * rhs.p_data[11]) + (lhs.p_data[7] * rhs.p_data[15]),
+            (lhs.p_data[8] * rhs.p_data[0]) + (lhs.p_data[9] * rhs.p_data[4]) + (lhs.p_data[10] * rhs.p_data[8]) + (lhs.p_data[11] * rhs.p_data[12]),
+            (lhs.p_data[8] * rhs.p_data[1]) + (lhs.p_data[9] * rhs.p_data[5]) + (lhs.p_data[10] * rhs.p_data[9]) + (lhs.p_data[11] * rhs.p_data[13]),
+            (lhs.p_data[8] * rhs.p_data[2]) + (lhs.p_data[9] * rhs.p_data[6]) + (lhs.p_data[10] * rhs.p_data[10]) + (lhs.p_data[11] * rhs.p_data[14]),
+            (lhs.p_data[8] * rhs.p_data[3]) + (lhs.p_data[9] * rhs.p_data[7]) + (lhs.p_data[10] * rhs.p_data[11]) + (lhs.p_data[11] * rhs.p_data[15]),
+            (lhs.p_data[12] * rhs.p_data[0]) + (lhs.p_data[13] * rhs.p_data[4]) + (lhs.p_data[14] * rhs.p_data[8]) + (lhs.p_data[15] * rhs.p_data[12]),
+            (lhs.p_data[12] * rhs.p_data[1]) + (lhs.p_data[13] * rhs.p_data[5]) + (lhs.p_data[14] * rhs.p_data[9]) + (lhs.p_data[15] * rhs.p_data[13]),
             (lhs.p_data[12] * rhs.p_data[2]) + (lhs.p_data[13] * rhs.p_data[6]) + (lhs.p_data[14] * rhs.p_data[10]) + (lhs.p_data[15] * rhs.p_data[14]),
             (lhs.p_data[12] * rhs.p_data[3]) + (lhs.p_data[13] * rhs.p_data[7]) + (lhs.p_data[14] * rhs.p_data[11]) + (lhs.p_data[15] * rhs.p_data[15])
         };
     }
 
-    MATH_INLINE matrix<float, 4, 4> operator*(const float lhs, const matrix<float, 4, 4>& rhs)
+    MATH_INLINE matrix<float, 4, 4> operator*(const float lhs, const matrix<float, 4, 4> & rhs)
     {
         return rhs * lhs;
     }
 
-    MATH_INLINE matrix<float, 4, 4> operator*(const matrix<float, 4, 4>& lhs, const float rhs)
+    MATH_INLINE matrix<float, 4, 4> operator*(const matrix<float, 4, 4> & lhs, const float rhs)
     {
         return
         {
-            lhs.p_data[ 0] * rhs, lhs.p_data[ 1] * rhs, lhs.p_data[ 2] * rhs, lhs.p_data[ 3] * rhs,
-            lhs.p_data[ 4] * rhs, lhs.p_data[ 5] * rhs, lhs.p_data[ 6] * rhs, lhs.p_data[ 7] * rhs,
-            lhs.p_data[ 8] * rhs, lhs.p_data[ 9] * rhs, lhs.p_data[10] * rhs, lhs.p_data[11] * rhs,
+            lhs.p_data[0] * rhs, lhs.p_data[1] * rhs, lhs.p_data[2] * rhs, lhs.p_data[3] * rhs,
+            lhs.p_data[4] * rhs, lhs.p_data[5] * rhs, lhs.p_data[6] * rhs, lhs.p_data[7] * rhs,
+            lhs.p_data[8] * rhs, lhs.p_data[9] * rhs, lhs.p_data[10] * rhs, lhs.p_data[11] * rhs,
             lhs.p_data[12] * rhs, lhs.p_data[13] * rhs, lhs.p_data[14] * rhs, lhs.p_data[15] * rhs
         };
     }
 
-    MATH_INLINE vector<float, 4> operator*(const vector<float, 4>& lhs, const matrix<float, 4, 4>& rhs)
+    MATH_INLINE vector<float, 4> operator*(const vector<float, 4> & lhs, const matrix<float, 4, 4> & rhs)
     {
         return
         {
-            (lhs.p_cols[0] * rhs.p_data[0]) + (lhs.p_cols[1] * rhs.p_data[4]) + (lhs.p_cols[2] * rhs.p_data[ 8]) + (lhs.p_cols[3] * rhs.p_data[12]),
-            (lhs.p_cols[0] * rhs.p_data[1]) + (lhs.p_cols[1] * rhs.p_data[5]) + (lhs.p_cols[2] * rhs.p_data[ 9]) + (lhs.p_cols[3] * rhs.p_data[13]),
+            (lhs.p_cols[0] * rhs.p_data[0]) + (lhs.p_cols[1] * rhs.p_data[4]) + (lhs.p_cols[2] * rhs.p_data[8]) + (lhs.p_cols[3] * rhs.p_data[12]),
+            (lhs.p_cols[0] * rhs.p_data[1]) + (lhs.p_cols[1] * rhs.p_data[5]) + (lhs.p_cols[2] * rhs.p_data[9]) + (lhs.p_cols[3] * rhs.p_data[13]),
             (lhs.p_cols[0] * rhs.p_data[2]) + (lhs.p_cols[1] * rhs.p_data[6]) + (lhs.p_cols[2] * rhs.p_data[10]) + (lhs.p_cols[3] * rhs.p_data[14]),
             (lhs.p_cols[0] * rhs.p_data[3]) + (lhs.p_cols[1] * rhs.p_data[7]) + (lhs.p_cols[2] * rhs.p_data[11]) + (lhs.p_cols[3] * rhs.p_data[15])
         };
@@ -4200,86 +4215,86 @@ namespace lina
         };
 
         static quaternion create(const float pitch, const float yaw, const float roll);
-        
+
         static quaternion create(const vector<float, 3>& axis, const float angle);
-        
+
         static quaternion create(const matrix<float, 3, 3>& m);
 
         quaternion(const float x, const float y, const float z, const float w);
-        
+
         quaternion(const quaternion& o);
-        
+
         quaternion(const float* o);
-        
+
         quaternion() = default;
 
         float dot(const quaternion& rhs) const;
-        
+
         float length_squared() const;
 
         float length() const;
-        
+
         quaternion& normalize();
-        
+
         quaternion& safe_normalize(const float tolerance = 0.001f);
 
         quaternion& conjugate();
-        
+
         quaternion& inverse();
 
         matrix<float, 3, 3> matrix3x3() const;
-        
+
         matrix<float, 4, 3> matrix4x3() const;
-        
+
         matrix<float, 4, 4> matrix4x4() const;
-        
+
         vector<float, 3> euler() const;
 
         quaternion& operator+=(const quaternion& rhs);
-        
+
         quaternion& operator-=(const quaternion& rhs);
-        
+
         quaternion& operator*=(const quaternion& rhs);
 
         quaternion& operator*=(const float rhs);
-        
+
         quaternion& operator/=(const float rhs);
 
         quaternion& operator=(const quaternion& rhs);
-        
+
         quaternion operator-() const;
     };
 
     float dot(const quaternion& lhs, const quaternion& rhs);
-    
+
     float length(const quaternion& rhs);
-    
+
     float length_squared(const quaternion& val);
-    
+
     quaternion normalize(const quaternion& rhs);
-    
+
     quaternion safe_normalize(const quaternion& rhs, const float tolerance = 0.001f);
-    
+
     quaternion conjugate(const quaternion& rhs);
-    
+
     quaternion inverse(const quaternion& rhs);
-    
+
     quaternion slerp(quaternion q0, quaternion q1, const float t);
 
     quaternion operator+(const quaternion& lhs, const quaternion& rhs);
-    
+
     quaternion operator-(const quaternion& lhs, const quaternion& rhs);
-    
+
     quaternion operator*(const quaternion& lhs, const quaternion& rhs);
 
     vector<float, 3> operator*(const vector<float, 3>& lhs, const quaternion& rhs);
-    
+
     vector<float, 3> operator*(const quaternion& lhs, const vector<float, 3>& rhs);
 
     quaternion operator*(const quaternion& lhs, const float rhs);
-    
+
     quaternion operator*(const float lhs, const quaternion& rhs);
-    
+
     quaternion operator/(const quaternion& lhs, const float rhs);
 
     MATH_INLINE quaternion quaternion::create(const float pitch, const float yaw, const float roll)
@@ -4308,7 +4323,7 @@ namespace lina
         float a = angle * 0.5f;
         float s = sinf(a);
         float c = cosf(a);
-        
+
         return
         {
             axis.x * s,
@@ -4405,7 +4420,7 @@ namespace lina
 
     }
 
-    MATH_INLINE quaternion::quaternion(const quaternion& o)
+    MATH_INLINE quaternion::quaternion(const quaternion & o)
         : x(o.x)
         , y(o.y)
         , z(o.z)
@@ -4423,7 +4438,7 @@ namespace lina
 
     }
 
-    MATH_INLINE float quaternion::dot(const quaternion& rhs) const
+    MATH_INLINE float quaternion::dot(const quaternion & rhs) const
     {
         return (x * rhs.x) + (y * rhs.y) + (z * rhs.z) + (w * rhs.w);
     }
@@ -4448,7 +4463,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE quaternion& quaternion::safe_normalize(const float tolerance /*= 0.001f*/)
+    MATH_INLINE quaternion & quaternion::safe_normalize(const float tolerance /*= 0.001f*/)
     {
         float l = sqrtf((x * x) + (y * y) + (z * z) + (w * w));
         if (l > tolerance)
@@ -4587,7 +4602,7 @@ namespace lina
         return o;
     }
 
-    MATH_INLINE quaternion& quaternion::operator+=(const quaternion& rhs)
+    MATH_INLINE quaternion & quaternion::operator+=(const quaternion & rhs)
     {
         x += rhs.x;
         y += rhs.y;
@@ -4596,7 +4611,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE quaternion& quaternion::operator-=(const quaternion& rhs)
+    MATH_INLINE quaternion& quaternion::operator-=(const quaternion & rhs)
     {
         x -= rhs.x;
         y -= rhs.y;
@@ -4605,7 +4620,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE quaternion& quaternion::operator*=(const quaternion& rhs)
+    MATH_INLINE quaternion& quaternion::operator*=(const quaternion & rhs)
     {
         float ow = (w * rhs.w) - ((x * rhs.x) + (y * rhs.y) + (z * rhs.z));
         float ox = (w * rhs.x) + (rhs.w * x) + ((y * rhs.z) - (z * rhs.y));
@@ -4618,7 +4633,7 @@ namespace lina
         return *this;
     }
 
-    MATH_INLINE quaternion& quaternion::operator=(const quaternion& rhs)
+    MATH_INLINE quaternion & quaternion::operator=(const quaternion & rhs)
     {
         x = rhs.x;
         y = rhs.y;
@@ -4656,22 +4671,22 @@ namespace lina
         return out;
     }
 
-    MATH_INLINE float dot(const quaternion& lhs, const quaternion& rhs)
+    MATH_INLINE float dot(const quaternion & lhs, const quaternion & rhs)
     {
         return (lhs.x * rhs.x) + (lhs.y * rhs.y) + (lhs.z * rhs.z) + (lhs.w * rhs.w);
     }
 
-    MATH_INLINE float length_squared(const quaternion& val)
+    MATH_INLINE float length_squared(const quaternion & val)
     {
         return (val.x * val.x) + (val.y * val.y) + (val.z * val.z) + (val.w * val.w);
     }
 
-    MATH_INLINE float length(const quaternion& rhs)
+    MATH_INLINE float length(const quaternion & rhs)
     {
         return sqrt((rhs.x * rhs.x) + (rhs.y * rhs.y) + (rhs.z * rhs.z) + (rhs.w * rhs.w));
     }
 
-    MATH_INLINE quaternion normalize(const quaternion& rhs)
+    MATH_INLINE quaternion normalize(const quaternion & rhs)
     {
         float il = 1.0f / sqrt((rhs.x * rhs.x) + (rhs.y * rhs.y) + (rhs.z * rhs.z) + (rhs.w * rhs.w));
         return
@@ -4683,7 +4698,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE quaternion safe_normalize(const quaternion& rhs, const float tolerance /*= 0.001f*/)
+    MATH_INLINE quaternion safe_normalize(const quaternion & rhs, const float tolerance /*= 0.001f*/)
     {
         float l = sqrt((rhs.x * rhs.x) + (rhs.y * rhs.y) + (rhs.z * rhs.z) + (rhs.w * rhs.w));
         float il = (l > tolerance) ? (1.0f / l) : 1.0f;
@@ -4696,12 +4711,12 @@ namespace lina
         };
     }
 
-    MATH_INLINE quaternion conjugate(const quaternion& rhs)
+    MATH_INLINE quaternion conjugate(const quaternion & rhs)
     {
         return { -rhs.x, -rhs.y, -rhs.z, rhs.w };
     }
 
-    MATH_INLINE quaternion inverse(const quaternion& rhs)
+    MATH_INLINE quaternion inverse(const quaternion & rhs)
     {
         float il = 1.0f / sqrt((rhs.x * rhs.x) + (rhs.y * rhs.y) + (rhs.z * rhs.z) + (rhs.w * rhs.w));
         return { -rhs.x * il, -rhs.y * il, -rhs.z * il, rhs.w * il };
@@ -4736,7 +4751,7 @@ namespace lina
         return q0 + q1;
     }
 
-    MATH_INLINE quaternion operator+(const quaternion& lhs, const quaternion& rhs)
+    MATH_INLINE quaternion operator+(const quaternion & lhs, const quaternion & rhs)
     {
         return
         {
@@ -4747,7 +4762,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE quaternion operator-(const quaternion& lhs, const quaternion& rhs)
+    MATH_INLINE quaternion operator-(const quaternion & lhs, const quaternion & rhs)
     {
         return
         {
@@ -4758,7 +4773,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE quaternion operator*(const quaternion& lhs, const quaternion& rhs)
+    MATH_INLINE quaternion operator*(const quaternion & lhs, const quaternion & rhs)
     {
         return
         {
@@ -4769,19 +4784,19 @@ namespace lina
         };
     }
 
-    MATH_INLINE vector<float, 3> operator*(const vector<float, 3>& lhs, const quaternion& rhs)
+    MATH_INLINE vector<float, 3> operator*(const vector<float, 3> & lhs, const quaternion & rhs)
     {
         return rhs * lhs;
     }
 
-    MATH_INLINE vector<float, 3> operator*(const quaternion& lhs, const vector<float, 3>& rhs)
+    MATH_INLINE vector<float, 3> operator*(const quaternion & lhs, const vector<float, 3> & rhs)
     {
         vector<float, 3> vxp = cross(lhs.v, rhs);
         vector<float, 3> vxpxv = cross(lhs.v, vxp);
         return rhs + ((vxp * lhs.w) + vxpxv) * 2.0f;
     }
 
-    MATH_INLINE quaternion operator*(const quaternion& lhs, const float rhs)
+    MATH_INLINE quaternion operator*(const quaternion & lhs, const float rhs)
     {
         return
         {
@@ -4792,7 +4807,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE quaternion operator/(const quaternion& lhs, const float rhs)
+    MATH_INLINE quaternion operator/(const quaternion & lhs, const float rhs)
     {
         float inv = 1.0f / rhs;
         return
@@ -4804,7 +4819,7 @@ namespace lina
         };
     }
 
-    MATH_INLINE quaternion operator*(const float lhs, const quaternion& rhs)
+    MATH_INLINE quaternion operator*(const float lhs, const quaternion & rhs)
     {
         return
         {
@@ -4818,7 +4833,7 @@ namespace lina
 #pragma endregion
 
 #pragma region primitives
-    
+
     template<unsigned int N>
     struct range
     {

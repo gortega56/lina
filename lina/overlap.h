@@ -116,7 +116,7 @@ namespace lina
     }
 
     template<unsigned int N>
-    MATH_INLINE int contains_point(const aabb<N>& aabb, const vector<float, N>& point)
+    MATH_INLINE int contains_point(const aabb<N> & aabb, const vector<float, N> & point)
     {
         range<N> r = make_range(aabb);
 
@@ -132,7 +132,7 @@ namespace lina
     }
 
     template<unsigned int N>
-    MATH_INLINE int overlap(const ray<N>& ray, const plane<N>& plane, intersection<N>* hit_result)
+    MATH_INLINE int overlap(const ray<N> & ray, const plane<N> & plane, intersection<N> * hit_result)
     {
         // Check if ray is parallel to plane
         float denom = dot(ray.direction, plane.normal);
@@ -150,7 +150,7 @@ namespace lina
     }
 
     template<unsigned int N>
-    MATH_INLINE int overlap(const ray<N>& ray, const ellipsoid<N>& ellipsoid, intersection<N>* hit_result)
+    MATH_INLINE int overlap(const ray<N> & ray, const ellipsoid<N> & ellipsoid, intersection<N> * hit_result)
     {
         // R(t) = P + tD, where t >= 0
         // S(t) = (X - C) * (X - C) = r^2, where X is a point on the surface of the sphere
@@ -191,7 +191,7 @@ namespace lina
     }
 
     template<unsigned int N>
-    MATH_INLINE int overlap(const vector<float, N>& origin, const vector<float, N>& direction, const aabb<N>& aabb, const float min, const float max, intersection<N>* hit_result)
+    MATH_INLINE int overlap(const vector<float, N> & origin, const vector<float, N> & direction, const aabb<N> & aabb, const float min, const float max, intersection<N> * hit_result)
     {
         float t_min = min;
         float t_max = max;
@@ -237,7 +237,7 @@ namespace lina
     }
 
     template<unsigned int N>
-    MATH_INLINE int overlap(const vector<float, N>& origin, const vector<float, N>& direction, const obb<N>& obb, const float min, const float max, intersection<N>* hit_result)
+    MATH_INLINE int overlap(const vector<float, N> & origin, const vector<float, N> & direction, const obb<N> & obb, const float min, const float max, intersection<N> * hit_result)
     {
         float t_min = min;
         float t_max = max;
@@ -287,7 +287,7 @@ namespace lina
     }
 
     template<unsigned int N>
-    MATH_INLINE int overlap(const ray<N>& ray, const aabb<N>& aabb, intersection<N>* hit_result)
+    MATH_INLINE int overlap(const ray<N> & ray, const aabb<N> & aabb, intersection<N> * hit_result)
     {
         bool result = overlap(ray.origin, ray.direction, aabb, 0.0f, FLT_MAX, hit_result);
         if (result)
@@ -299,7 +299,7 @@ namespace lina
     }
 
     template<unsigned int N>
-    MATH_INLINE int overlap(const ray<N>& ray, const obb<N>& obb, intersection<N>* hit_result)
+    MATH_INLINE int overlap(const ray<N> & ray, const obb<N> & obb, intersection<N> * hit_result)
     {
         bool result = overlap(ray.origin, ray.direction, obb, 0.0f, FLT_MAX, hit_result);
         if (result)
@@ -311,7 +311,7 @@ namespace lina
     }
 
     template<unsigned int N>
-    MATH_INLINE int overlap(const line<N>& line, const aabb<N>& aabb, intersection<N>* hit_result)
+    MATH_INLINE int overlap(const line<N> & line, const aabb<N> & aabb, intersection<N> * hit_result)
     {
         bool result = overlap(line.origin, line.end - line.origin, aabb, 0.0f, 1.0f, hit_result);
         if (result)
@@ -323,7 +323,7 @@ namespace lina
     }
 
     template<unsigned int N>
-    MATH_INLINE int overlap(const line<N>& line, const obb<N>& obb, intersection<N>* hit_result)
+    MATH_INLINE int overlap(const line<N> & line, const obb<N> & obb, intersection<N> * hit_result)
     {
         bool result = overlap(line.origin, line.end - line.origin, obb, 0.0f, 1.0f, hit_result);
         if (result)
@@ -335,7 +335,7 @@ namespace lina
     }
 
     template<unsigned int N>
-    MATH_INLINE int overlap(const plane<N>& plane, const ellipsoid<N>& ellipsoid, intersection<N>* hit_result)
+    MATH_INLINE int overlap(const plane<N> & plane, const ellipsoid<N> & ellipsoid, intersection<N> * hit_result)
     {
         // Evaluating the plane equation (N * X) = d for a point gives signed distance from plane
         float distance = dot(plane.normal, ellipsoid.origin) - plane.distance;
@@ -350,7 +350,7 @@ namespace lina
     }
 
     template<unsigned int N>
-    MATH_INLINE int overlap(const plane<N>& plane, const aabb<N>& aabb, intersection<N>* hit_result)
+    MATH_INLINE int overlap(const plane<N> & plane, const aabb<N> & aabb, intersection<N> * hit_result)
     {
         // Compute projection interval radius
         float pir = dot(aabb.extents, make_abs(plane.normal));
@@ -369,7 +369,7 @@ namespace lina
     }
 
     template<unsigned int N>
-    MATH_INLINE int overlap(const plane<N>& plane, const obb<N>& obb, intersection<N>* hit_result)
+    MATH_INLINE int overlap(const plane<N> & plane, const obb<N> & obb, intersection<N> * hit_result)
     {
         // Compute projection interval radius
         float pir = 0.0f;
@@ -392,7 +392,7 @@ namespace lina
         return 0;
     }
 
-    MATH_INLINE int overlap(const plane<3>& p0, const plane<3>& p1, const plane<3>& p2, intersection<3>* hit_result)
+    MATH_INLINE int overlap(const plane<3> & p0, const plane<3> & p1, const plane<3> & p2, intersection<3> * hit_result)
     {
         vector<float, 3> u = cross(p1.normal, p2.normal);
 
@@ -408,7 +408,7 @@ namespace lina
     }
 
     template<unsigned int N>
-    MATH_INLINE int overlap(const ellipsoid<N>& ellipsoid, const aabb<N>& aabb, intersection<N>* hit_result)
+    MATH_INLINE int overlap(const ellipsoid<N> & ellipsoid, const aabb<N> & aabb, intersection<N> * hit_result)
     {
         hit_result->point = closest_point_to_point(aabb, ellipsoid.origin);
         vector<float, N> d = hit_result->point - ellipsoid.origin;
@@ -416,7 +416,7 @@ namespace lina
     }
 
     template<unsigned int N>
-    MATH_INLINE int overlap(const ellipsoid<N>& ellipsoid, const obb<N>& obb, intersection<N>* hit_result)
+    MATH_INLINE int overlap(const ellipsoid<N> & ellipsoid, const obb<N> & obb, intersection<N> * hit_result)
     {
         hit_result->point = closest_point_to_point(obb, ellipsoid.origin);
         vector<float, N> d = hit_result->point - ellipsoid.origin;
@@ -424,7 +424,7 @@ namespace lina
     }
 
     template<unsigned int N>
-    MATH_INLINE int overlap(const ellipsoid<N>& o0, const ellipsoid<N>& o1, intersection<N>* hit_result)
+    MATH_INLINE int overlap(const ellipsoid<N> & o0, const ellipsoid<N> & o1, intersection<N> * hit_result)
     {
         vector<float, N> d = o0.origin - o1.origin;
         float ls = length_squared(d);
@@ -439,7 +439,7 @@ namespace lina
     }
 
     template<unsigned int N>
-    MATH_INLINE int overlap(const aabb<N>& a0, const aabb<N>& a1, intersection<N>* hit_result)
+    MATH_INLINE int overlap(const aabb<N> & a0, const aabb<N> & a1, intersection<N> * hit_result)
     {
         range<N> r0 = make_range(a0);
         range<N> r1 = make_range(a1);
@@ -457,7 +457,7 @@ namespace lina
     }
 
     template<unsigned int N>
-    MATH_INLINE int overlap(const aabb<N>& a, const obb<N>& b, intersection<N>* hit_result)
+    MATH_INLINE int overlap(const aabb<N> & a, const obb<N> & b, intersection<N> * hit_result)
     {
         obb<N> o;
         o.origin = a.origin;
@@ -467,7 +467,7 @@ namespace lina
     }
 
     template<unsigned int N>
-    int overlap(const obb<N>& a, const obb<N>& b, intersection<N>* hit_result)
+    int overlap(const obb<N> & a, const obb<N> & b, intersection<N> * hit_result)
     {
         // Projected extents of a and b respectively
         float ra, rb;
