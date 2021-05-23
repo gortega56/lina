@@ -27,7 +27,7 @@ namespace lina
 
         static quaternion<T> rotate_matrix(const matrix<T, 3, 3>& m);
 
-        quaternion(const T x, const T y, const T z, const T w);
+        quaternion(const T ix, const T iy, const T iz, const T iw);
 
         quaternion(const vector<T, 3>& v, const T w);
 
@@ -242,11 +242,11 @@ namespace lina
     }
 
     template<typename T>
-    quaternion<T>::quaternion(const T x, const T y, const T z, const T w)
-        : x(x)
-        , y(y)
-        , z(z)
-        , w(w)
+    quaternion<T>::quaternion(const T ix, const T iy, const T iz, const T iw)
+        : x(ix)
+        , y(iy)
+        , z(iz)
+        , w(iw)
     {
 
     }
