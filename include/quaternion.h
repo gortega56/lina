@@ -35,7 +35,7 @@ namespace lina
 
         quaternion(const T* o);
 
-        quaternion() = default;
+        quaternion();
 
         T length_squared() const;
 
@@ -277,6 +277,16 @@ namespace lina
         , y(o[1])
         , z(o[2])
         , w(o[3])
+    {
+
+    }
+
+    template<typename T>
+    quaternion<T>::quaternion()
+        : x(static_cast<T>(0))
+        , y(static_cast<T>(0))
+        , z(static_cast<T>(0))
+        , w(static_cast<T>(1))
     {
 
     }
