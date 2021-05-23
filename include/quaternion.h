@@ -29,6 +29,8 @@ namespace lina
 
         quaternion(const T x, const T y, const T z, const T w);
 
+        quaternion(const vector<T, 3>& v, const T w);
+
         quaternion(const quaternion<T>& o);
 
         quaternion(const T* o);
@@ -244,6 +246,16 @@ namespace lina
         : x(x)
         , y(y)
         , z(z)
+        , w(w)
+    {
+
+    }
+
+    template<typename T>
+    quaternion<T>::quaternion(const vector<T, 3>& v, const T w)
+        : x(v[0])
+        , y(v[1])
+        , z(v[2])
         , w(w)
     {
 
@@ -648,13 +660,7 @@ namespace lina
     template<typename T>
     quaternion<T> operator*(const quaternion<T>& lhs, const quaternion<T>& rhs)
     {
-        return
-        {
-            (lhs.w * rhs.x) + (lhs.x * rhs.w) + ((lhs.y * rhs.z) - (lhs.z * rhs.y)),
-            (lhs.w * rhs.y) + (lhs.y * rhs.w) + ((lhs.z * rhs.x) - (lhs.x * rhs.z)),
-            (lhs.w * rhs.z) + (lhs.z * rhs.w) + ((lhs.x * rhs.y) - (lhs.y * rhs.x)),
-            (lhs.w * rhs.w) - ((lhs.x * rhs.x) + (lhs.y * rhs.y) + (lhs.z * rhs.z))
-        };
+        return quaternion<T>(cross(lhs.v, rhs.v) + (lhs.w * rhs.v) + (rhs.w * lhs.v), lhs.w * rhs.w - dot(lhs.v, rhs.v));
     }
 
     template<typename T>
