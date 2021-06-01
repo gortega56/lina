@@ -205,7 +205,7 @@ namespace lina
             operand_type0 operand0 = operand_type0::rotate_euler(0.0f, 0.0f, 0.524f);
             operand_type1 operand1 = vector_set<float,3>(1.0f, 0.0f, 0.0f);
             result_type expected = vector_set<float,3>(0.866f, 0.5f, 0.0f);
-            result_type actual = operand1 * operand0;
+            result_type actual = operand0.transform_point(operand1);
             EXPECT_NEAR3(expected, actual, 0.001f);
         }
     }

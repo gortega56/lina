@@ -57,6 +57,8 @@ namespace lina
 
         vector<T, 3> euler() const;
 
+        vector<T, 3> transform_point(const vector<T, 3>& p) const;
+
         quaternion<T>& operator+=(const quaternion<T>& rhs);
 
         quaternion<T>& operator-=(const quaternion<T>& rhs);
@@ -108,12 +110,6 @@ namespace lina
 
     template<typename T>
     quaternion<T> operator*(const quaternion<T>& lhs, const quaternion<T>& rhs);
-
-    template<typename T>
-    vector<T, 3> operator*(const vector<T, 3>& lhs, const quaternion<T>& rhs);
-
-    template<typename T>
-    vector<T, 3> operator*(const quaternion<T>& lhs, const vector<T, 3>& rhs);
 
     template<typename T>
     quaternion<T> operator*(const quaternion<T>& lhs, const T rhs);
@@ -461,6 +457,12 @@ namespace lina
     }
 
     template<typename T>
+    vector<T, 3> quaternion<T>::transform_point(const vector<T, 3>& p) const
+    {
+        return (*this * quaternion<T>(p, 0) * lina::conjugate(*this)).v;
+    }
+
+    template<typename T>
     quaternion<T>& quaternion<T>::operator+=(const quaternion<T>& rhs)
     {
         x += rhs.x;
@@ -671,20 +673,6 @@ namespace lina
     quaternion<T> operator*(const quaternion<T>& lhs, const quaternion<T>& rhs)
     {
         return quaternion<T>(cross(lhs.v, rhs.v) + (lhs.w * rhs.v) + (rhs.w * lhs.v), lhs.w * rhs.w - dot(lhs.v, rhs.v));
-    }
-
-    template<typename T>
-    vector<T, 3> operator*(const vector<T, 3>& lhs, const quaternion<T>& rhs)
-    {
-        return rhs * lhs;
-    }
-
-    template<typename T>
-    vector<T, 3> operator*(const quaternion<T>& lhs, const vector<T, 3>& rhs)
-    {
-        vector<T, 3> vxp = cross(lhs.v, rhs);
-        vector<T, 3> vxpxv = cross(lhs.v, vxp);
-        return rhs + ((vxp * lhs.w) + vxpxv) * 2.0f;
     }
 
     template<typename T>
