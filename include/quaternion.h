@@ -27,6 +27,10 @@ namespace lina
 
         static quaternion<T> rotate_matrix(const matrix<T, 3, 3>& m);
 
+        static quaternion<T> rotate_difference(const vector<T, 3>& a, const vector<T, 3>& b);
+
+        static quaternion<T> rotate_difference(const quaternion<T>& a, const quaternion<T>& b);
+
         quaternion(const T ix, const T iy, const T iz, const T iw);
 
         quaternion(const vector<T, 3>& v, const T w);
@@ -235,6 +239,30 @@ namespace lina
             break;
         }
         return o;
+    }
+
+    template<typename T>
+    quaternion<T> quaternion<T>::rotate_difference(const vector<T, 3>& a, const vector<T, 3>& b)
+    {
+        // Given a, b we solve for q such that b = qaq*
+        T w = sqrt((1 + dot(a, b)) / static_cast<T>(2));
+        T one_over_w = static_cast<T>(1) / w;
+        vector<T, 3> axb = cross(a, b);
+        return
+        {
+            one_over_w * axb.x,
+            one_over_w * axb.y,
+            one_over_w * axb.z,
+            w
+        };
+    }
+
+    template<typename T>
+    quaternion<T> quaternion<T>::rotate_difference(const quaternion<T>& q0, const quaternion<T>& q1)
+    {
+        // Given q1 = diff * q0, solve for diff
+        // diff = q1 * q0^-1
+        return q1 * lina::inverse(q0);
     }
 
     template<typename T>

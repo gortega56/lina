@@ -208,5 +208,19 @@ namespace lina
             result_type actual = operand0.transform_point(operand1);
             EXPECT_NEAR3(expected, actual, 0.001f);
         }
+
+        TEST(quaternion, difference)
+        {
+            typedef quaternion<float> operand_type0;
+            typedef quaternion<float> operand_type1;
+            typedef quaternion<float> result_type;
+
+            operand_type0 operand0 = operand_type0::rotate_euler(0.0f, 0.0f, 0.524f);
+            operand_type1 operand1 = operand_type0::rotate_euler(0.0f, 0.524f, 0.0f);
+            result_type difference = result_type::rotate_difference(operand0, operand1);
+            result_type expected = difference * operand0;
+            result_type actual = operand1;
+            EXPECT_NEAR3(expected, actual, 0.001f);
+        }
     }
 }
