@@ -220,7 +220,7 @@ namespace lina
             result_type difference = result_type::rotate_difference(operand0, operand1);
             result_type expected = difference * operand0;
             result_type actual = operand1;
-            EXPECT_NEAR3(expected, actual, 0.001f);
+            EXPECT_NEAR4(expected, actual, 0.001f);
         }
     }
 }
